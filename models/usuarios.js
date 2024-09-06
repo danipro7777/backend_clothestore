@@ -16,13 +16,21 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     contrasenia: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     estado: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
+    token: { // Nuevo campo para almacenar el token
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    tokenExpiresAt: { // Nuevo campo para almacenar la fecha de expiración del token
+      type: DataTypes.DATE,
+      allowNull: true
+    }
   }, {
     sequelize,
     modelName: 'usuarios',

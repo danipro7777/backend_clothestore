@@ -30,5 +30,7 @@ module.exports = (app) => {
     router.put('/pagos/:id', pagosController.update);
     router.delete('/pagos/:id', pagosController.delete);
 
+    router.post('/logout', authenticateToken, usuariosController.logout); // Ruta para cerrar sesión
+
     app.use('/', router);
 };
