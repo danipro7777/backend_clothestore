@@ -5,6 +5,8 @@ const { authenticateToken } = require('../middlewares/authenticateToken');
 // Importa los controladores
 const usuariosController = require('../controllers/usuariosController');
 const pagosController = require('../controllers/pagosController');
+const temporadasController = require('../controllers/temporadasController');
+const logpreguntasController = require('../controllers/logpreguntasController');
 
 module.exports = (app) => {
     // Ruta para el login
@@ -31,6 +33,21 @@ module.exports = (app) => {
     router.delete('/pagos/:id', pagosController.delete);
 
     router.post('/logout', authenticateToken, usuariosController.logout); // Ruta para cerrar sesión
+
+      //RUTAS CRUD TEMPORADAS
+      router.get('/temporada', temporadasController.find);
+      router.get('/temporada/:id', temporadasController.findById);
+      router.post('/temporada/create', temporadasController.createTemporada);
+      router.put('/temporada/update/:id', temporadasController.updateTemporada);
+      router.delete('/temporada/delete/:id', temporadasController.deleteTemporada);
+  
+      
+      //RUTAS CRUD LOG DE PREGUNTAS
+      router.get('/logpreguntas', logpreguntasController.find);
+      router.get('/logpreguntas/:id', logpreguntasController.findById);
+      router.post('/logpreguntas/create', logpreguntasController.createLogPreguntas);
+      router.put('/logpreguntas/update/:id', logpreguntasController.updateLogPreguntas);
+      router.delete('/logpreguntas/delete/:id', logpreguntasController.deleteLogPreguntas);
 
     app.use('/', router);
 };
