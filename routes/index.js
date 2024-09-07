@@ -10,6 +10,8 @@ const logpreguntasController = require('../controllers/logpreguntasController');
 const productosController = require('../controllers/productosController');
 const ocasionesController = require('../controllers/ocasionesController');
 const tallasController = require('../controllers/tallasController');
+const cuponesController = require('../controllers/cuponesController');
+const descuentoController = require('../controllers/descuentosController');
 
 module.exports = (app) => {
     // Ruta para el login
@@ -74,5 +76,20 @@ module.exports = (app) => {
       router.put('/talla/update/:id', tallasController.update);
       router.delete('/talla/delete/:id', tallasController.delete);
 
+      //RUTAS CRUD cupones
+    router.get('/cupones', cuponesController.findAll);
+    router.get('/cupones/:id', cuponesController.findById);
+    router.post('/cupones/create', cuponesController.create);
+    router.put('/cupones/update/:id', cuponesController.update);
+    router.delete('/cupones/delete/:id', cuponesController.delete);
+
+        //RUTAS CRUD descuento
+        router.get('/descuentos', descuentoController.findAll);
+        router.get('/descuentos/:id', descuentoController.findById);
+        router.post('/descuentos/create', descuentoController.create);
+        router.put('/descuentos/update/:id', descuentoController.update);
+        router.delete('/descuentos/delete/:id', descuentoController.delete);
+
     app.use('/', router);
+
 };
