@@ -10,7 +10,7 @@ require('./routes')(app);
 
 app.use(logger('dev'));
 
-
+app.use(express.json());
 
 //validacion de rutas
 app.use(cors());
