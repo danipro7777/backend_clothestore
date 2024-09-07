@@ -35,13 +35,13 @@ module.exports = {
 
     create: async (req, res) => {
         try {
-            const { talla, estado = 1 } = req.body; // Usa el valor por defecto para estado
+            const { talla} = req.body; // Usa el valor por defecto para estado
             if (!talla) {
                 return res.status(400).send({
                     message: "El campo 'talla' es requerido."
                 });
             }
-            const data = await Talla.create({ talla, estado });
+            const data = await Talla.create({ talla, estado: 1  });
             res.status(201).json(data);
         } catch (error) {
             res.status(500).send({
