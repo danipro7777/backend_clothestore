@@ -7,6 +7,7 @@ const usuariosController = require('../controllers/usuariosController');
 const pagosController = require('../controllers/pagosController');
 const temporadasController = require('../controllers/temporadasController');
 const logpreguntasController = require('../controllers/logpreguntasController');
+const productosController = require('../controllers/productosController');
 
 module.exports = (app) => {
     // Ruta para el login
@@ -48,6 +49,13 @@ module.exports = (app) => {
       router.post('/logpreguntas/create', logpreguntasController.createLogPreguntas);
       router.put('/logpreguntas/update/:id', logpreguntasController.updateLogPreguntas);
       router.delete('/logpreguntas/delete/:id', logpreguntasController.deleteLogPreguntas);
+
+    //RUTAS CRUD PRODUCTOS
+    router.get('/productos', productosController.findAll);
+    router.get('/productos/:idProducto', productosController.findById);
+    router.post('/productos/create', productosController.create);
+    router.put('/productos/update/:idProducto', productosController.update);
+    router.delete('/productos/delete/:idProducto', productosController.delete);
 
     app.use('/', router);
 };
