@@ -21,11 +21,11 @@
     "moment": "^2.29.4",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.2",
-    "sequelize": "^6.19.0",
+    "sequelize": "^6.37.3",
     "xml": "^1.0.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.14",
-    "sequelize-cli": "^6.3.0"
+    "sequelize-cli": "^6.6.2"
   }
 }
