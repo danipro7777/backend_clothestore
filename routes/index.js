@@ -9,6 +9,9 @@ const temporadasController = require('../controllers/temporadasController');
 const logpreguntasController = require('../controllers/logpreguntasController');
 const productosController = require('../controllers/productosController');
 const ocasionesController = require('../controllers/ocasionesController');
+const tallaController = require('../controllers/tallasController');
+const cuponesController = require('../controllers/cuponesController');
+const descuentoController = require('../controllers/descuentosController');
 
 module.exports = (app) => {
     // Ruta para el login
@@ -64,6 +67,28 @@ module.exports = (app) => {
     router.post('/ocasiones/create', ocasionesController.create);
     router.put('/ocasiones/update/:idOcasion', ocasionesController.update);
     router.delete('ocasiones/delete/:idOcasion', ocasionesController.delete);
+
+    //tallas
+    router.get('/tallas', tallaController.findAll);
+    router.get('/tallas/:id', tallaController.findById);
+    router.post('/tallas/create', tallaController.create);
+    router.put('/tallas/update/:id', tallaController.update);
+    router.delete('/tallas/delete/:id', tallaController.delete);
+
+    //cupones
+    router.get('/cupones', cuponesController.findAll);
+    router.get('/cupones/:id', cuponesController.findById);
+    router.post('/cupones/create', cuponesController.create);
+    router.put('/cupones/update/:id', cuponesController.update);
+    router.delete('/cupones/delete/:id', cuponesController.delete);
+
+        //descuento
+        router.get('/descuentos', descuentoController.findAll);
+        router.get('/descuentos/:id', descuentoController.findById);
+        router.post('/descuentos/create', descuentoController.create);
+        router.put('/descuentos/update/:id', descuentoController.update);
+        router.delete('/descuentos/delete/:id', descuentoController.delete);
+
 
     app.use('/', router);
 };
