@@ -8,6 +8,7 @@ const pagosController = require('../controllers/pagosController');
 const temporadasController = require('../controllers/temporadasController');
 const logpreguntasController = require('../controllers/logpreguntasController');
 const productosController = require('../controllers/productosController');
+const ocasionesController = require('../controllers/ocasionesController');
 
 module.exports = (app) => {
     // Ruta para el login
@@ -56,6 +57,13 @@ module.exports = (app) => {
     router.post('/productos/create', productosController.create);
     router.put('/productos/update/:idProducto', productosController.update);
     router.delete('/productos/delete/:idProducto', productosController.delete);
+
+    //RUTAS CRUD OCASIONES
+    router.get('/ocasiones', ocasionesController.findAll);
+    router.get('/ocasiones/:idOcasion', ocasionesController.findById);
+    router.post('/ocasiones/create', ocasionesController.create);
+    router.put('/ocasiones/update/:idOcasion', ocasionesController.update);
+    router.delete('ocasiones/delete/:idOcasion', ocasionesController.delete);
 
     app.use('/', router);
 };
