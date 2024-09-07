@@ -2,13 +2,13 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class Talla extends Model {
+    class tallas extends Model {
         static associate(models) {
             // Aquí puedes definir asociaciones si es necesario
         }
     }
 
-    Talla.init({
+    tallas.init({
         idTalla: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -25,10 +25,10 @@ module.exports = (sequelize, DataTypes) => {
         },
     }, {
         sequelize,
-        modelName: 'Talla',
+        modelName: 'tallas',
         tableName: 'tallas',
         timestamps: false,
     });
 
-    return Talla;
+    return tallas;
 };

@@ -1,7 +1,7 @@
 'use strict';
 const Sequelize = require('sequelize');
 const db = require('../models');
-const Talla = db.Talla;
+const Talla = db.tallas;
 
 module.exports = {
     findAll: async (req, res) => {
@@ -33,22 +33,25 @@ module.exports = {
         }
     },
 
-    create: async (req, res) => {
-        try {
-            const { talla} = req.body; // Usa el valor por defecto para estado
-            if (!talla) {
-                return res.status(400).send({
-                    message: "El campo 'talla' es requerido."
-                });
-            }
-            const data = await Talla.create({ talla, estado: 1  });
-            res.status(201).json(data);
-        } catch (error) {
-            res.status(500).send({
-                message: error.message || "Some error occurred while creating the talla."
-            });
+    create(req, res) {
+        let datos = req.body;
+
+         console.log(datos);
+
+        const datos_ingreso = { 
+            talla: datos.talla,
+            estado: 1  // Valor por defecto para estado
         }
+        Talla.create(datos_ingreso)
+        .then(tallas => {
+            res.status(201).send(tallas);
+        })
+        .catch(error => {
+            console.log(error);
+            return res.status(500).json({ error: 'Error al insertar la talla' });
+        });
     },
+    
 
     update: async (req, res) => {
         const id = req.params.id;
