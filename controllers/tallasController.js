@@ -1,6 +1,6 @@
 'use strict';
-const Sequelize = require('sequelize');
 const db = require('../models');
+const tallas = require("../models/tallas");
 const Talla = db.tallas;
 
 module.exports = {
@@ -35,22 +35,27 @@ module.exports = {
 
     create(req, res) {
         let datos = req.body;
-
-         console.log(datos);
-
+        console.log('Datos recibidos:', datos); // Verifica qué datos estás recibiendo
+    
+        if (!datos || !datos.talla) {
+            return res.status(400).json({ error: 'El campo talla es requerido' });
+        }
+    
         const datos_ingreso = { 
             talla: datos.talla,
-            estado: 1  // Valor por defecto para estado
-        }
+            estado: 1 
+        };
+    
         Talla.create(datos_ingreso)
-        .then(tallas => {
-            res.status(201).send(tallas);
-        })
-        .catch(error => {
-            console.log(error);
-            return res.status(500).json({ error: 'Error al insertar la talla' });
-        });
+            .then(tallas => {
+                res.status(201).send(tallas);
+            })
+            .catch(error => {
+                console.log(error);
+                return res.status(500).json({ error: 'Error al insertar la talla' });
+            });
     },
+    
     
 
     update: async (req, res) => {

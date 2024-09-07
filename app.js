@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express       = require('express');
 const cors          = require('cors');
 const logger        = require('morgan');
@@ -6,7 +5,7 @@ const bodyParser    = require('body-parser');
 const http = require('http');
 const app = express();
 
-require('./routes')(app); 
+/*  require('./routes')(app); */
 
 app.use(logger('dev'));
 
@@ -27,7 +26,7 @@ app.use(express.json({limit:"50mb"}));
 app.use(express.urlencoded({limit:"50mb" , extended: false }));  
 
 
-/* require("./routes")(app);*/
+require("./routes")(app);
 
 
 /* genera  las tablas en la base de datos */

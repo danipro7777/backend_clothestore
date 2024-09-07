@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { authenticateToken } = require('../middlewares/authenticateToken');
+//const { authenticateToken } = require('../middlewares/authenticateToken');
 
 // Importa los controladores
 const usuariosController = require('../controllers/usuariosController');
@@ -9,9 +9,7 @@ const temporadasController = require('../controllers/temporadasController');
 const logpreguntasController = require('../controllers/logpreguntasController');
 const productosController = require('../controllers/productosController');
 const ocasionesController = require('../controllers/ocasionesController');
-const tallaController = require('../controllers/tallasController');
-const cuponesController = require('../controllers/cuponesController');
-const descuentoController = require('../controllers/descuentosController');
+const tallasController = require('../controllers/tallasController');
 
 module.exports = (app) => {
     // Ruta para el login
@@ -21,7 +19,7 @@ module.exports = (app) => {
     router.post('/usuarios', usuariosController.create); // No se le aplica token porque es la ruta de creación de usuario
 
     // <-------------------- USO DE TOKENS APARTIR DE AQUI --------------------
-    router.use(authenticateToken); // Middleware para verificar el token
+    //router.use(authenticateToken); // Middleware para verificar el token
 
     // <-------------------- RUTAS --------------------
     // Rutas CRUD para usuarios
@@ -37,7 +35,7 @@ module.exports = (app) => {
     router.put('/pagos/:id', pagosController.update);
     router.delete('/pagos/:id', pagosController.delete);
 
-    router.post('/logout', authenticateToken, usuariosController.logout); // Ruta para cerrar sesión
+    //router.post('/logout', authenticateToken, usuariosController.logout); // Ruta para cerrar sesión
 
       //RUTAS CRUD TEMPORADAS
       router.get('/temporada', temporadasController.find);
@@ -46,6 +44,7 @@ module.exports = (app) => {
       router.put('/temporada/update/:id', temporadasController.updateTemporada);
       router.delete('/temporada/delete/:id', temporadasController.deleteTemporada);
   
+
       
       //RUTAS CRUD LOG DE PREGUNTAS
       router.get('/logpreguntas', logpreguntasController.find);
@@ -68,27 +67,12 @@ module.exports = (app) => {
     router.put('/ocasiones/update/:idOcasion', ocasionesController.update);
     router.delete('ocasiones/delete/:idOcasion', ocasionesController.delete);
 
-    //tallas
-    router.get('/tallas', tallaController.findAll);
-    router.get('/tallas/:id', tallaController.findById);
-    router.post('/tallas/create', tallaController.create);
-    router.put('/tallas/update/:id', tallaController.update);
-    router.delete('/tallas/delete/:id', tallaController.delete);
-
-    //cupones
-    router.get('/cupones', cuponesController.findAll);
-    router.get('/cupones/:id', cuponesController.findById);
-    router.post('/cupones/create', cuponesController.create);
-    router.put('/cupones/update/:id', cuponesController.update);
-    router.delete('/cupones/delete/:id', cuponesController.delete);
-
-        //descuento
-        router.get('/descuentos', descuentoController.findAll);
-        router.get('/descuentos/:id', descuentoController.findById);
-        router.post('/descuentos/create', descuentoController.create);
-        router.put('/descuentos/update/:id', descuentoController.update);
-        router.delete('/descuentos/delete/:id', descuentoController.delete);
-
+      //RUTAS CRUD TALLA
+      router.get('/talla', tallasController.findAll);
+      router.get('/talla/:id', tallasController.findById);
+      router.post('/talla/create', tallasController.create);
+      router.put('/talla/update/:id', tallasController.update);
+      router.delete('/talla/delete/:id', tallasController.delete);
 
     app.use('/', router);
 };
