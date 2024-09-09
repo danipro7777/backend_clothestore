@@ -13,6 +13,7 @@ const tallasController = require('../controllers/tallasController');
 const cuponesController = require('../controllers/cuponesController');
 const descuentoController = require('../controllers/descuentosController');
 const clientesController = require('../controllers/clientesController');
+const detalleTemporadasController = require('../controllers/detalletemporadasController');
 
 module.exports = (app) => {
     // Ruta para el login
@@ -95,6 +96,13 @@ module.exports = (app) => {
     router.post('/descuentos/create', descuentoController.create);
     router.put('/descuentos/update/:id', descuentoController.update);
     router.delete('/descuentos/delete/:id', descuentoController.delete);
+
+    //RUTAS CRUD DETALLETEMPORADAS
+    router.get('/detalletemp', detalleTemporadasController.findAll);
+    router.get('/detalletemp/:id', detalleTemporadasController.findById);
+    router.post('/detalletemp/create', detalleTemporadasController.create);
+    router.put('/detalletemp/update/:id', detalleTemporadasController.update);
+    router.delete('/detalletemp/delete/:id', detalleTemporadasController.delete);
 
     app.use('/', router);
 
