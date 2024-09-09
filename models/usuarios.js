@@ -3,6 +3,12 @@ const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class usuarios extends Model {
+    static associate(models) {
+      // Asociación con el modelo Empleados
+      usuarios.hasOne(models.clientes, {
+        foreignKey: 'idUsuario'
+      });
+    }
   };
 
   usuarios.init({
