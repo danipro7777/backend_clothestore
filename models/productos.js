@@ -8,6 +8,11 @@ module.exports = (sequelize, DataTypes) => {
       productos.hasMany(models.detalletemporadas, {
         foreignKey: 'idProducto'
       });
+
+      // Relación uno a muchos con inventarios
+      productos.hasMany(models.inventarios, {
+        foreignKey: 'idProducto'
+      });
     }
   }
 
