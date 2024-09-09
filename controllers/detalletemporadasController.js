@@ -64,9 +64,16 @@ module.exports = {
             if (!detalle) {
                 return res.status(404).json({ message: 'Detalle de temporada no encontrado' });
             }
-            detalle.idTemporada = idTemporada;
-            detalle.idProducto = idProducto;
-            await detalle.save();
+
+            // Actualizar solo los campos que fueron enviados
+            if (idTemporada !== undefined) {
+                detalle.idTemporada = idTemporada;
+            }
+            if (idProducto !== undefined) {
+                detalle.idProducto = idProducto;
+            }
+
+            await detalle.save(); // Guardar los cambios
             res.status(200).json(detalle);
         } catch (error) {
             res.status(500).json({ error: error.message });
