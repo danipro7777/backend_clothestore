@@ -39,21 +39,19 @@ module.exports = (app) => {
 
     router.post('/logout', authenticateToken, usuariosController.logout); // Ruta para cerrar sesión
 
-      //RUTAS CRUD TEMPORADAS
-      router.get('/temporada', temporadasController.find);
-      router.get('/temporada/:id', temporadasController.findById);
-      router.post('/temporada/create', temporadasController.createTemporada);
-      router.put('/temporada/update/:id', temporadasController.updateTemporada);
-      router.delete('/temporada/delete/:id', temporadasController.deleteTemporada);
-  
-
-      
-      //RUTAS CRUD LOG DE PREGUNTAS
-      router.get('/logpreguntas', logpreguntasController.find);
-      router.get('/logpreguntas/:id', logpreguntasController.findById);
-      router.post('/logpreguntas/create', logpreguntasController.createLogPreguntas);
-      router.put('/logpreguntas/update/:id', logpreguntasController.updateLogPreguntas);
-      router.delete('/logpreguntas/delete/:id', logpreguntasController.deleteLogPreguntas);
+    //RUTAS CRUD TEMPORADAS
+    router.get('/temporada', temporadasController.find);
+    router.get('/temporada/:id', temporadasController.findById);
+    router.post('/temporada/create', temporadasController.createTemporada);
+    router.put('/temporada/update/:id', temporadasController.updateTemporada);
+    router.delete('/temporada/delete/:id', temporadasController.deleteTemporada);
+     
+    //RUTAS CRUD LOG DE PREGUNTAS
+    router.get('/logpreguntas', logpreguntasController.find);
+    router.get('/logpreguntas/:id', logpreguntasController.findById);
+    router.post('/logpreguntas/create', logpreguntasController.createLogPreguntas);
+    router.put('/logpreguntas/update/:id', logpreguntasController.updateLogPreguntas);
+    router.delete('/logpreguntas/delete/:id', logpreguntasController.deleteLogPreguntas);
 
     //RUTAS CRUD PRODUCTOS
     router.get('/productos', productosController.findAll);
@@ -69,12 +67,12 @@ module.exports = (app) => {
     router.put('/ocasiones/update/:idOcasion', ocasionesController.update);
     router.delete('ocasiones/delete/:idOcasion', ocasionesController.delete);
 
-      //RUTAS CRUD TALLA
-      router.get('/talla', tallasController.findAll);
-      router.get('/talla/:id', tallasController.findById);
-      router.post('/talla/create', tallasController.create);
-      router.put('/talla/update/:id', tallasController.update);
-      router.delete('/talla/delete/:id', tallasController.delete);
+    //RUTAS CRUD TALLA
+    router.get('/talla', tallasController.findAll);
+    router.get('/talla/:id', tallasController.findById);
+    router.post('/talla/create', tallasController.create);
+    router.put('/talla/update/:id', tallasController.update);
+    router.delete('/talla/delete/:id', tallasController.delete);
 
       //RUTAS CRUD cupones
     router.get('/cupones', cuponesController.findAll);
@@ -83,12 +81,12 @@ module.exports = (app) => {
     router.put('/cupones/update/:id', cuponesController.update);
     router.delete('/cupones/delete/:id', cuponesController.delete);
 
-        //RUTAS CRUD descuento
-        router.get('/descuentos', descuentoController.findAll);
-        router.get('/descuentos/:id', descuentoController.findById);
-        router.post('/descuentos/create', descuentoController.create);
-        router.put('/descuentos/update/:id', descuentoController.update);
-        router.delete('/descuentos/delete/:id', descuentoController.delete);
+    //RUTAS CRUD descuento
+    router.get('/descuentos', descuentoController.findAll);
+    router.get('/descuentos/:id', descuentoController.findById);
+    router.post('/descuentos/create', descuentoController.create);
+    router.put('/descuentos/update/:id', descuentoController.update);
+    router.delete('/descuentos/delete/:id', descuentoController.delete);
 
     app.use('/', router);
 
