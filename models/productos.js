@@ -3,7 +3,18 @@ const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class productos extends Model {
-  };
+    static associate(models) {
+      // Relación uno a muchos con detalletemporadas
+      productos.hasMany(models.detalletemporadas, {
+        foreignKey: 'idProducto'
+      });
+
+      // Relación uno a muchos con inventarios
+      productos.hasMany(models.inventarios, {
+        foreignKey: 'idProducto'
+      });
+    }
+  }
 
   productos.init({
     idProducto: {
@@ -16,26 +27,26 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     genero: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     color: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     descripcion: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     estado: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
   }, {
     sequelize,
-    modelName: 'productos', // nombre del modelo
-    tableName: 'productos', // Nombre de la tabla
-    timestamps: false // No incluir createdAt y updatedAt
+    modelName: 'productos',
+    tableName: 'productos',
+    timestamps: false
   });
 
   return productos;
