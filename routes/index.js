@@ -12,6 +12,7 @@ const ocasionesController = require('../controllers/ocasionesController');
 const tallasController = require('../controllers/tallasController');
 const cuponesController = require('../controllers/cuponesController');
 const descuentoController = require('../controllers/descuentosController');
+const ventasController = require('../controllers/ventasController');
 
 module.exports = (app) => {
     // Ruta para el login
@@ -89,6 +90,13 @@ module.exports = (app) => {
         router.post('/descuentos/create', descuentoController.create);
         router.put('/descuentos/update/:id', descuentoController.update);
         router.delete('/descuentos/delete/:id', descuentoController.delete);
+
+    //RUTAS CRUD VENTAS
+    router.get('/ventas', ventasController.findAll);
+    router.get('/ventas/:id', ventasController.findById);
+    router.post('/ventas/create', ventasController.create);
+    router.put('/ventas/update/:id', ventasController.update);
+    router.delete('/ventas/delete/:id', ventasController.delete);
 
     app.use('/', router);
 
