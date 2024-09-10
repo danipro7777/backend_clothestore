@@ -16,7 +16,6 @@ const clientesController = require('../controllers/clientesController');
 const detalleTemporadasController = require('../controllers/detalletemporadasController');
 const inventariosController = require('../controllers/inventariosController');
 const ventasController = require('../controllers/ventasController');
-const ventasController = require('../controllers/ventasController');
 
 module.exports = (app) => {
     // Ruta para el login
@@ -121,13 +120,6 @@ module.exports = (app) => {
     router.put('/ventas/update/:id', ventasController.update);
     router.delete('/ventas/delete/:id', ventasController.delete);
 
-        //RUTAS CRUD VENTAS
-        router.get('/ventas', ventasController.findAll);
-        router.get('/ventas/:id', ventasController.findById);
-        router.post('/ventas/create', ventasController.create);
-        router.put('/ventas/update/:id', ventasController.update);
-        router.delete('/ventas/delete/:id', ventasController.delete);
-    
     app.use('/', router);
 
 };
