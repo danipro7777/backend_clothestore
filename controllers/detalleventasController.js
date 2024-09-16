@@ -43,7 +43,7 @@ module.exports = {
             });
     },
 
-    createCliente(req, res) {
+    createDVentas(req, res) {
         const datos = req.body;
 
         if (!datos.nombre || !datos.edad || !datos.correo || !datos.telefono || !datos.direccion || !datos.idUsuario) {
@@ -70,7 +70,7 @@ module.exports = {
             });
     },
 
-    updateCliente(req, res) {
+    updateDVentas(req, res) {
         const datos = req.body;
         const id = req.params.id;
 
@@ -102,7 +102,7 @@ module.exports = {
         });
     },    
 
-    async deleteCliente(req, res) {
+    async deleteDventas(req, res) {
         const id = req.params.id; 
     
         try {
