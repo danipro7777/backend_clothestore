@@ -8,7 +8,7 @@ const Productos = db.productos;
 // Métodos CRUD
 module.exports = {
 
-    // Obtener todos los clientes con estado activo
+    // Obtener todos los detalles de venta con estado activo
     find(req, res) {
         return DetalleVentas.findAll({
             where: {
@@ -44,6 +44,7 @@ module.exports = {
                 });
             });
     },
+    
         // createDetalleVenta
         createDetalleVenta(req, res) {
             const datos = req.body;

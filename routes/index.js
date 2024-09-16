@@ -17,6 +17,7 @@ const detalleTemporadasController = require('../controllers/detalletemporadasCon
 const inventariosController = require('../controllers/inventariosController');
 const ventasController = require('../controllers/ventasController');
 const detalleventasController = require('../controllers/detalleventasController');
+const devolucionesController = require('../controllers/devolucionesController');
 
 module.exports = (app) => {
     // Ruta para el login
@@ -26,7 +27,7 @@ module.exports = (app) => {
    router.post('/usuarios', usuariosController.create); // No se le aplica token porque es la ruta de creación de usuario
 
     // <-------------------- USO DE TOKENS APARTIR DE AQUI --------------------
-    router.use(authenticateToken); // Middleware para verificar el token
+    //router.use(authenticateToken); // Middleware para verificar el token
 
     // <-------------------- RUTAS --------------------
     // Rutas CRUD para usuarios
@@ -113,6 +114,13 @@ module.exports = (app) => {
     router.post('/detalleventas/create', detalleventasController.createDetalleVenta);
     router.put('/detalleventas/update/:id', detalleventasController.updateDetalleVenta);
     router.delete('/detalleventas/delete/:id', detalleventasController.deleteDetalleVenta);
+
+    //RUTAS CRUD DEVOLUCIONES
+    router.get('/devolucion', devolucionesController.find);
+    router.get('/devolucion/:id', devolucionesController.findById);
+    router.post('/devolucion/create', devolucionesController.createDevolucion);
+    router.put('/devolucion/update/:id', devolucionesController.updateDevolucion);
+    router.delete('/devolucion/delete/:id', devolucionesController.deleteDevolucion);
 
     //RUTAS CRUD INVENTARIOS
     router.get('/inventarios', inventariosController.findAll);
