@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       ventas.belongsTo(models.Cupon, {
         foreignKey: 'idCupon'
       });
+
+      ventas.hasMany(models.detalleventas, {
+        foreignKey: 'idDetalleVentas'
+      });
     }
   }
 
