@@ -28,12 +28,13 @@ module.exports = {
     },
 
     create: async (req, res) => {
-        const { nombre, genero, color, descripcion } = req.body;
+        const { nombre, genero, color, descripcion, precio } = req.body;
         try {
             const nuevoProducto = await PRODUCTOS.create({
                 nombre,
                 genero,
                 color,
+                precio,
                 descripcion,
                 estado: 1 // Valor por defecto para estado
             });
@@ -45,7 +46,7 @@ module.exports = {
 
     update: async (req, res) => {
         const { idProducto } = req.params;
-        const { nombre, genero, color, descripcion, estado } = req.body;
+        const { nombre, genero, color, descripcion, estado, precio } = req.body;
         try {
             const producto = await PRODUCTOS.findByPk(idProducto);
             if (producto) {
@@ -55,6 +56,7 @@ module.exports = {
                     genero: genero !== undefined ? genero : producto.genero,
                     color: color !== undefined ? color : producto.color,
                     descripcion: descripcion !== undefined ? descripcion : producto.descripcion,
+                    precio: precio !== undefined ? precio : producto.precio,
                     estado: estado !== undefined ? estado : producto.estado,
                 });
                 res.status(200).json({ message: "Producto actualizado correctamente", producto });
