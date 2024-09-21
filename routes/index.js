@@ -21,6 +21,9 @@ const devolucionesController = require('../controllers/devolucionesController');
 const detalleOcasionesController = require('../controllers/detalleocasionesController');
 const enviosController = require('../controllers/enviosController');
 const detalleTallasController = require('../controllers/detalletallasController');
+const empleadosController = require('../controllers/empleadosController');
+const rolesController =  require('../controllers/rolesController');
+
 
 module.exports = (app) => {
     // Ruta para el login
@@ -30,7 +33,7 @@ module.exports = (app) => {
    router.post('/usuarios', usuariosController.create); // No se le aplica token porque es la ruta de creación de usuario
 
     // <-------------------- USO DE TOKENS APARTIR DE AQUI --------------------
-    //router.use(authenticateToken); // Middleware para verificar el token
+    router.use(authenticateToken); // Middleware para verificar el token
 
     router.post('/logout', authenticateToken, usuariosController.logout); // Ruta para cerrar sesión
     
@@ -160,6 +163,19 @@ module.exports = (app) => {
     router.put('/detalleTallas/update/:id', detalleTallasController.update);
     router.delete('/detalleTallas/delete/:id', detalleTallasController.delete);
      
+    //RUTAS CRUD EMPLEADOS
+    router.get('/empleados', empleadosController.findAll);
+    router.get('/empleados/:id', empleadosController.findById);
+    router.post('/empleados/create', empleadosController.create);
+    router.put('/empleados/update/:id', empleadosController.update);
+    router.delete('/empleados/delete/:id', empleadosController.delete);
+
+    //RUTAS CRUD ROLES
+    router.get('/roles', rolesController.findAll);
+    router.get('/roles/:id', rolesController.findById);
+    router.post('/roles/create', rolesController.create);
+    router.put('/roles/update/:id', rolesController.update);
+    router.delete('/roles/delete/:id', rolesController.delete);
 
     app.use('/', router);
 

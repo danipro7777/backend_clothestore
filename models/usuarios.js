@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       usuarios.hasOne(models.clientes, {
         foreignKey: 'idUsuario'
       });
+      // Asociación  con el modelo Empleados
+      usuarios.hasOne(models.empleados, {
+        foreignKey: 'idUsuario'
+      });
     }
   };
 
