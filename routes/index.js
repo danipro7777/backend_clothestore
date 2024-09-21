@@ -19,6 +19,8 @@ const ventasController = require('../controllers/ventasController');
 const detalleventasController = require('../controllers/detalleventasController');
 const devolucionesController = require('../controllers/devolucionesController');
 const detalleOcasionesController = require('../controllers/detalleocasionesController');
+const enviosController = require('../controllers/enviosController');
+const detalleTallasController = require('../controllers/detalletallasController');
 
 module.exports = (app) => {
     // Ruta para el login
@@ -143,6 +145,20 @@ module.exports = (app) => {
     router.post('/detalleoc/create', detalleOcasionesController.create);
     router.put('/detalleoc/update/:id', detalleOcasionesController.update);
     router.delete('/detalleoc/delete/:id', detalleOcasionesController.delete);
+
+    //RUTAS CRUD ENVIOS
+    router.get('/envios', enviosController.findAll);
+    router.get('/envios/:id', enviosController.findById);
+    router.post('/envios/create', enviosController.create);
+    router.put('/envios/update/:id', enviosController.update);
+    router.delete('/envios/delete/:id', enviosController.delete);
+
+    //RUTAS CRUD DETALLE TALLAS
+    router.get('/detalleTallas', detalleTallasController.findAll);
+    router.get('/detalleTallas/:id', detalleTallasController.findById);
+    router.post('/detalleTallas/create', detalleTallasController.create);
+    router.put('/detalleTallas/update/:id', detalleTallasController.update);
+    router.delete('/detalleTallas/delete/:id', detalleTallasController.delete);
      
 
     app.use('/', router);
