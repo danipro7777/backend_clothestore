@@ -30,6 +30,8 @@ module.exports = (app) => {
     // <-------------------- USO DE TOKENS APARTIR DE AQUI --------------------
     //router.use(authenticateToken); // Middleware para verificar el token
 
+    router.post('/logout', authenticateToken, usuariosController.logout); // Ruta para cerrar sesión
+    
     // <-------------------- RUTAS --------------------
     // Rutas CRUD para usuarios
     router.get('/usuarios', usuariosController.find); // Obtiene todos los usuarios activos
@@ -43,8 +45,6 @@ module.exports = (app) => {
     router.post('/pagos', pagosController.create);
     router.put('/pagos/:id', pagosController.update);
     router.delete('/pagos/:id', pagosController.delete);
-
-    router.post('/logout', authenticateToken, usuariosController.logout); // Ruta para cerrar sesión
 
     //RUTAS CRUD TEMPORADAS
     router.get('/temporada', temporadasController.find);
