@@ -157,7 +157,8 @@ module.exports = {
         const datos_ingreso = { 
             usuario: datos.usuario,
             contrasenia: rot13(datos.contrasenia), // Encriptar con ROT13
-            estado: 1 // Asignar valor predeterminado de 1
+            estado: 1, // Asignar valor predeterminado de 1
+            idRol: datos.idRol // Incluir el idRol en los datos de ingreso
         };
 
         try {
@@ -178,6 +179,7 @@ module.exports = {
         if (datos.usuario !== undefined) camposActualizados.usuario = datos.usuario;
         if (datos.contrasenia !== undefined) camposActualizados.contrasenia = rot13(datos.contrasenia); // Encriptar con ROT13 si se actualiza
         if (datos.estado !== undefined) camposActualizados.estado = datos.estado; // Permite actualizar el estado
+        if (datos.idRol !== undefined) camposActualizados.idRol = datos.idRol; // Permite actualizar el rol
 
         try {
             const [rowsUpdated] = await Usuarios.update(camposActualizados, {

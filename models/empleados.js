@@ -7,10 +7,6 @@ module.exports = (sequelize, DataTypes) => {
         empleados.belongsTo(models.usuarios, {
             foreignKey: 'idUsuario'
         });
-
-        empleados.belongsTo(models.roles, {
-            foreignKey: 'idRol'
-        });
     }
   }
 
@@ -33,10 +29,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
     },
     idUsuario: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    idRol: {
         type: DataTypes.INTEGER,
         allowNull: false
     },

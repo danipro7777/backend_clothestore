@@ -1,7 +1,7 @@
 'use strict';
 const db = require("../models");
 const EMPLEADOS = db.empleados;
-const ROLES = db.roles;
+const USUARIO = db.usuarios;
 
 module.exports = {
 
@@ -9,7 +9,7 @@ module.exports = {
     async findAll(req, res) {
         try {
             const empleados = await EMPLEADOS.findAll({
-                include: [{ model: ROLES, attributes: ['idRol', 'rol'] }]
+                include: [{ model: USUARIO, attributes: ['idUsuario', 'usuario'] }]
             });
             res.status(200).json(empleados);
         } catch (error) {
@@ -22,7 +22,7 @@ module.exports = {
         const { id } = req.params;
         try {
             const empleado = await EMPLEADOS.findByPk(id, {
-                include: [{ model: ROLES, attributes: ['idRol', 'rol'] }]
+                include: [{ model: USUARIO, attributes: ['idUsuario', 'usuario'] }]
             });
             if (!empleado) {
                 return res.status(404).json({ message: 'Empleado no encontrado' });
@@ -35,14 +35,13 @@ module.exports = {
 
     // Crear un nuevo empleado
     async create(req, res) {
-        const { nombre, correo, telefono, idUsuario, idRol, estado } = req.body;
+        const { nombre, correo, telefono, idUsuario, estado } = req.body;
         try {
             const newEmpleado = await EMPLEADOS.create({
                 nombre,
                 correo,
                 telefono,
                 idUsuario,
-                idRol,
                 estado: 1
             });
             res.status(201).json(newEmpleado);
@@ -54,7 +53,7 @@ module.exports = {
     // Actualizar un empleado por su idEmpleado
     async update(req, res) {
         const { id } = req.params;
-        const { nombre, correo, telefono, idUsuario, idRol, estado } = req.body;
+        const { nombre, correo, telefono, idUsuario, estado } = req.body;
         try {
             const empleado = await EMPLEADOS.findByPk(id);
             if (!empleado) {
@@ -66,7 +65,6 @@ module.exports = {
             if (correo !== undefined) empleado.correo = correo;
             if (telefono !== undefined) empleado.telefono = telefono;
             if (idUsuario !== undefined) empleado.idUsuario = idUsuario;
-            if (idRol !== undefined) empleado.idRol = idRol;
             if (estado !== undefined) empleado.estado = estado;
 
             await empleado.save();
