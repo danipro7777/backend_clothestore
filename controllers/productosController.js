@@ -28,7 +28,7 @@ module.exports = {
     },
 
     create: async (req, res) => {
-        const { nombre, genero, color, descripcion, precio } = req.body;
+        const { nombre, genero, color, descripcion, precio, foto } = req.body;
         try {
             const nuevoProducto = await PRODUCTOS.create({
                 nombre,
@@ -36,6 +36,7 @@ module.exports = {
                 color,
                 precio,
                 descripcion,
+                foto, // base64
                 estado: 1 // Valor por defecto para estado
             });
             res.status(201).json(nuevoProducto);
@@ -46,7 +47,7 @@ module.exports = {
 
     update: async (req, res) => {
         const { idProducto } = req.params;
-        const { nombre, genero, color, descripcion, estado, precio } = req.body;
+        const { nombre, genero, color, descripcion, estado, precio, foto } = req.body;
         try {
             const producto = await PRODUCTOS.findByPk(idProducto);
             if (producto) {
@@ -57,6 +58,7 @@ module.exports = {
                     color: color !== undefined ? color : producto.color,
                     descripcion: descripcion !== undefined ? descripcion : producto.descripcion,
                     precio: precio !== undefined ? precio : producto.precio,
+                    foto:  foto !== undefined ? foto : producto.foto,
                     estado: estado !== undefined ? estado : producto.estado,
                 });
                 res.status(200).json({ message: "Producto actualizado correctamente", producto });
