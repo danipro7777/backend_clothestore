@@ -36,13 +36,15 @@ module.exports = (app) => {
     // ! POR EL MOMENTO SE VA A DESACTIVAR LA AUTENTICACION DE TOKENS PARA PODER PROBAR LAS RUTAS
     // router.use(authenticateToken); // Middleware para verificar el token
 
-    router.post('/logout', usuariosController.logout); // Ruta para cerrar sesión
+    router.post('/logout/:id', usuariosController.logout); // Ruta para cerrar sesión
     
     // <-------------------- RUTAS --------------------
     // Rutas CRUD para usuarios
-    router.get('/usuarios', usuariosController.find); // Obtiene todos los usuarios activos
+    router.get('/usuarios/activos', usuariosController.find); // Obtiene todos los usuarios activos
+    router.get('/usuarios/all', usuariosController.find_all_users); // Obtiene todos los usuarios inactivos
     router.get('/usuarios/:id', usuariosController.findById); // Obtiene un usuario por ID
     router.put('/usuarios/:id', usuariosController.update); // Actualiza un usuario por ID
+    router.put('/usuarios/updatePassword/:id', usuariosController.update_password); // Actualiza la contraseña de un usuario por ID
     router.delete('/usuarios/:id', usuariosController.delete); // Elimina un usuario por ID
 
     // Rutas CRUD para pagos
