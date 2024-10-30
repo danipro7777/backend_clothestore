@@ -32,7 +32,7 @@ module.exports = (app) => {
     // Ruta para crear un nuevo usuario
    router.post('/usuarios', usuariosController.create); // No se le aplica token porque es la ruta de creación de usuario
 
-    // <-------------------- USO DE TOKENS APARTIR DE AQUI --------------------
+    // ! <-------------------- USO DE TOKENS APARTIR DE AQUI --------------------
      router.use(authenticateToken); // Middleware para verificar el token
 
      router.post('/logout', authenticateToken, usuariosController.logout); // Ruta para cerrar sesión
