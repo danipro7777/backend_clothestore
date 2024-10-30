@@ -34,7 +34,7 @@ module.exports = (app) => {
 
     // ! <-------------------- USO DE TOKENS APARTIR DE AQUI --------------------
     // ! POR EL MOMENTO SE VA A DESACTIVAR LA AUTENTICACION DE TOKENS PARA PODER PROBAR LAS RUTAS
-    router.use(authenticateToken); // Middleware para verificar el token
+    // router.use(authenticateToken); // Middleware para verificar el token
 
     router.post('/logout', usuariosController.logout); // Ruta para cerrar sesión
     
