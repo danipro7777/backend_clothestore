@@ -27,15 +27,16 @@ const rolesController =  require('../controllers/rolesController');
 
 module.exports = (app) => {
     // Ruta para el login
-     router.post('/login', usuariosController.login); // No se le aplica token porque es la ruta de login
+    router.post('/login', usuariosController.login); // No se le aplica token porque es la ruta de login
 
     // Ruta para crear un nuevo usuario
-   router.post('/usuarios', usuariosController.create); // No se le aplica token porque es la ruta de creación de usuario
+    router.post('/usuarios', usuariosController.create); // No se le aplica token porque es la ruta de creación de usuario
 
     // ! <-------------------- USO DE TOKENS APARTIR DE AQUI --------------------
-     router.use(authenticateToken); // Middleware para verificar el token
+    // ! POR EL MOMENTO SE VA A DESACTIVAR LA AUTENTICACION DE TOKENS PARA PODER PROBAR LAS RUTAS
+    router.use(authenticateToken); // Middleware para verificar el token
 
-     router.post('/logout', authenticateToken, usuariosController.logout); // Ruta para cerrar sesión
+    router.post('/logout', usuariosController.logout); // Ruta para cerrar sesión
     
     // <-------------------- RUTAS --------------------
     // Rutas CRUD para usuarios
