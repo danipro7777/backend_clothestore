@@ -5,6 +5,22 @@ const PRODUCTOS = db.productos;
 
 // Métodos CRUD
 module.exports = {
+    async find(req, res) {
+        try {
+            const inventario = await INVENTARIOS.findAll({
+                where: {
+                    estado: 1 // Filtrar solo los registros con estado activo (1)
+                }
+            });
+    
+            return res.status(200).send(inventario);
+        } catch (error) {
+            return res.status(500).send({
+                message: 'Ocurrió un error al recuperar los datos.'
+            });
+        }
+    },
+    
 
     // Obtener todos los registros de inventarios con sus productos asociados
     async findAll(req, res) {

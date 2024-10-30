@@ -132,6 +132,7 @@ module.exports = (app) => {
     router.delete('/devolucion/delete/:id', devolucionesController.deleteDevolucion);
 
     //RUTAS CRUD INVENTARIOS
+    router.get('/inventarios¿/activos', inventariosController.findAll);
     router.get('/inventarios', inventariosController.findAll);
     router.get('/inventarios/:id', inventariosController.findById);
     router.post('/inventarios/create', inventariosController.create);
