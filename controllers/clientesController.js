@@ -118,5 +118,46 @@ module.exports = {
             console.error('Error al eliminar cliente:', error);
             return res.status(500).json({ error: 'Error al eliminar cliente' });
         }
+    },
+
+    // Método para activar un cliente
+async activarCliente(req, res) {
+    const id = req.params.id;
+
+    try {
+        const cliente = await Clientes.findByPk(id);
+        if (!cliente) {
+            return res.status(404).json({ error: 'Cliente no encontrado' });
+        }
+
+        cliente.estado = 1; // Establecer estado como activo
+        await cliente.save(); // Guardar cambios
+
+        return res.status(200).json({ message: 'Cliente activado correctamente' });
+    } catch (error) {
+        console.error('Error al activar el cliente:', error);
+        return res.status(500).json({ error: 'Error al activar el cliente' });
     }
+},
+
+// Método para desactivar un cliente
+async desactivarCliente(req, res) {
+    const id = req.params.id;
+
+    try {
+        const cliente = await Clientes.findByPk(id);
+        if (!cliente) {
+            return res.status(404).json({ error: 'Cliente no encontrado' });
+        }
+
+        cliente.estado = 0; // Establecer estado como inactivo
+        await cliente.save(); // Guardar cambios
+
+        return res.status(200).json({ message: 'Cliente desactivado correctamente' });
+    } catch (error) {
+        console.error('Error al desactivar el cliente:', error);
+        return res.status(500).json({ error: 'Error al desactivar el cliente' });
+    }
+}
+
 };

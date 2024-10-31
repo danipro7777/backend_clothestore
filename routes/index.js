@@ -59,6 +59,8 @@ module.exports = (app) => {
     router.post('/clientes/create', clientesController.createCliente);
     router.put('/clientes/update/:id', clientesController.updateCliente);
     router.delete('/clientes/delete/:id', clientesController.deleteCliente);
+    router.delete('/clientes/activar/:id', clientesController.activarCliente);
+    router.delete('/clientes/desactivar/:id', clientesController.desactivarCliente);
   
     //RUTAS CRUD LOG DE PREGUNTAS
     router.get('/logpreguntas', logpreguntasController.find);
