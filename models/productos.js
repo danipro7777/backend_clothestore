@@ -38,14 +38,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    precio: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false
-    },
     estado: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
+    foto: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    precio: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false
+    },
+  
   }, {
     sequelize,
     modelName: 'productos',
