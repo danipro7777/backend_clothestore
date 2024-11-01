@@ -11,6 +11,10 @@ module.exports = {
     async findAll(req, res) {
         try {
             const detalles = await DETALLEOCASIONES.findAll({
+                include: [
+                    { model: OCASIONES, attributes: ['idOcasion', 'ocasion'] },
+                    { model: PRODUCTOS, attributes: ['idProducto', 'nombre'] }
+                ]
             });
             res.status(200).json(detalles);
         } catch (error) {
@@ -23,6 +27,10 @@ module.exports = {
         const { id } = req.params;
         try {
             const detalle = await DETALLEOCASIONES.findByPk(id, {
+                include: [
+                    { model: OCASIONES, attributes: ['idOcasion', 'ocasion'] },
+                    { model: PRODUCTOS, attributes: ['idProducto', 'nombre'] }
+                ]
             });
             if (!detalle) {
                 return res.status(404).json({ message: 'Detalle de ocasión no encontrado' });
@@ -35,11 +43,12 @@ module.exports = {
 
     // Crear un nuevo registro en detalleOcasiones
     async create(req, res) {
-        const { idOcasion, idProducto } = req.body;
+        const { idOcasion, idProducto} = req.body;
         try {
             const newDetalle = await DETALLEOCASIONES.create({
                 idOcasion,
-                idProducto
+                idProducto,
+                estado: 1
             });
             res.status(201).json(newDetalle);
         } catch (error) {
@@ -50,7 +59,7 @@ module.exports = {
     // Actualizar un registro de detalleOcasiones por su idDetalleOcasion
     async update(req, res) {
         const { id } = req.params;
-        const { idOcasion, idProducto } = req.body;
+        const { idOcasion, idProducto, estado } = req.body;
         try {
             const detalle = await DETALLEOCASIONES.findByPk(id);
             if (!detalle) {
@@ -63,6 +72,9 @@ module.exports = {
             }
             if (idProducto !== undefined) {
                 detalle.idProducto = idProducto;
+            }
+            if (estado !== undefined) {
+                detalle.estado = estado;
             }
 
             await detalle.save(); // Guardar los cambios

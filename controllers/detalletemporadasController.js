@@ -47,7 +47,8 @@ module.exports = {
         try {
             const newDetalle = await DETALLETEMPORADAS.create({
                 idTemporada,
-                idProducto
+                idProducto,
+                estado: 1
             });
             res.status(201).json(newDetalle);
         } catch (error) {
@@ -58,7 +59,7 @@ module.exports = {
     // Actualizar un registro de detalletemporadas por su idDetalleTemporada
     async update(req, res) {
         const { id } = req.params;
-        const { idTemporada, idProducto } = req.body;
+        const { idTemporada, idProducto, estado } = req.body;
         try {
             const detalle = await DETALLETEMPORADAS.findByPk(id);
             if (!detalle) {
@@ -72,7 +73,9 @@ module.exports = {
             if (idProducto !== undefined) {
                 detalle.idProducto = idProducto;
             }
-            
+            if (estado !== undefined) {
+                detalle.estado = estado;
+            }
 
             await detalle.save(); // Guardar los cambios
             res.status(200).json(detalle);
