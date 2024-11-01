@@ -12,7 +12,7 @@ module.exports = {
         try {
             const detalles = await DETALLE_TALLAS.findAll({
                 include: [
-                    { model: TALLAS, attributes: ['idTalla', 'nombre'] },
+                    { model: TALLAS, attributes: ['idTalla', 'talla'] },
                     { model: PRODUCTOS, attributes: ['idProducto', 'nombre'] }
                 ]
             });
@@ -28,7 +28,7 @@ module.exports = {
         try {
             const detalle = await DETALLE_TALLAS.findByPk(id, {
                 include: [
-                    { model: TALLAS, attributes: ['idTalla', 'nombre'] },
+                    { model: TALLAS, attributes: ['idTalla', 'talla'] },
                     { model: PRODUCTOS, attributes: ['idProducto', 'nombre'] }
                 ]
             });
