@@ -92,6 +92,7 @@ module.exports = (app) => {
 
     //RUTAS CRUD TALLA
     router.get('/talla', tallasController.findAll);
+    router.get('/talla/activos', tallasController.findActive);
     router.get('/talla/:id', tallasController.findById);
     router.post('/talla/create', tallasController.create);
     router.put('/talla/update/:id', tallasController.update);
