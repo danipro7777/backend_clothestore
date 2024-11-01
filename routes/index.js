@@ -85,6 +85,8 @@ module.exports = (app) => {
 
     //RUTAS CRUD OCASIONES
     router.get('/ocasiones', ocasionesController.findAll);
+    router.get('/ocasiones/activos', ocasionesController.findActive);
+    router.get('/ocasiones/inactivos', ocasionesController.findInactive);
     router.get('/ocasiones/:idOcasion', ocasionesController.findById);
     router.post('/ocasiones/create', ocasionesController.create);
     router.put('/ocasiones/update/:idOcasion', ocasionesController.update);
@@ -93,6 +95,7 @@ module.exports = (app) => {
     //RUTAS CRUD TALLA
     router.get('/talla', tallasController.findAll);
     router.get('/talla/activos', tallasController.findActive);
+    router.get('/talla/inactivos', tallasController.findInactive);
     router.get('/talla/:id', tallasController.findById);
     router.post('/talla/create', tallasController.create);
     router.put('/talla/update/:id', tallasController.update);
@@ -151,6 +154,8 @@ module.exports = (app) => {
 
      //RUTAS CRUD DETALLE OCASIONES
     router.get('/detalleoc', detalleOcasionesController.findAll);
+    router.get('/detalleoc/activos', ocasionesController.findActive);
+    router.get('/detalleoc/inactivos', ocasionesController.findInactive);
     router.get('/detalleoc/:id', detalleOcasionesController.findById);
     router.post('/detalleoc/create', detalleOcasionesController.create);
     router.put('/detalleoc/update/:id', detalleOcasionesController.update);
@@ -165,6 +170,8 @@ module.exports = (app) => {
 
     //RUTAS CRUD DETALLE TALLAS
     router.get('/detalleTallas', detalleTallasController.findAll);
+    router.get('/detalleTallas/activos', detalleTallasController.findActive);
+    router.post('/detalleTallas/inactivos', detalleTallasController.findInactive);
     router.get('/detalleTallas/:id', detalleTallasController.findById);
     router.post('/detalleTallas/create', detalleTallasController.create);
     router.put('/detalleTallas/update/:id', detalleTallasController.update);
@@ -172,6 +179,8 @@ module.exports = (app) => {
 
     //RUTAS CRUD EMPLEADOS
     router.get('/empleados', empleadosController.findAll);
+    router.get('/empleados/activos', empleadosController.findActive);
+    router.get('/empleados/inactivos', empleadosController.findInactive);
     router.get('/empleados/:id', empleadosController.findById);
     router.post('/empleados/create', empleadosController.create);
     router.put('/empleados/update/:id', empleadosController.update);

@@ -74,4 +74,30 @@ module.exports = {
             res.status(500).json({ message: "Error al eliminar la ocasión", error });
         }
     },
+    //  Obtener todas las ocasiones activas
+    async findActive(req, res) {
+        try {
+            const ocasion = await OCASIONES.findAll({
+                where : {
+                    estado : 1
+                },
+            });
+            res.status(200).json(ocasion);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+    // Obtener todas las ocasiones inactivas
+    async findInactive(req, res) {
+        try {
+            const detalle = await DETALLE_TALLAS.findAll({
+                where : {
+                    estado : 0
+                },
+            });
+            res.status(200).json(detalle);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
 };

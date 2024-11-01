@@ -6,7 +6,6 @@ const PRODUCTOS = db.productos;
 
 // Métodos CRUD
 module.exports = {
-
     // Obtener todos los registros de detalletallas con sus tallas y productos asociados
     async findAll(req, res) {
         try {
@@ -21,7 +20,6 @@ module.exports = {
             res.status(500).json({ error: error.message });
         }
     },
-
     // Obtener un registro de detalleTalla por su idDetalleTalla
     async findById(req, res) {
         const { id } = req.params;
@@ -40,7 +38,6 @@ module.exports = {
             res.status(500).json({ error: error.message });
         }
     },
-
     // Crear un nuevo registro en detalletallas
     async create(req, res) {
         const { estado, idTalla, idProducto } = req.body;
@@ -55,7 +52,6 @@ module.exports = {
             res.status(500).json({ error: error.message });
         }
     },
-
     // Actualizar un registro de detalletallas por su idDetalleTalla
     async update(req, res) {
         const { id } = req.params;
@@ -65,7 +61,6 @@ module.exports = {
             if (!detalle) {
                 return res.status(404).json({ message: 'Detalle no encontrado' });
             }
-
             // Actualizar solo los campos que fueron enviados
             if (estado !== undefined) {
                 detalle.estado = estado;
@@ -76,14 +71,12 @@ module.exports = {
             if (idProducto !== undefined) {
                 detalle.idProducto = idProducto;
             }
-
             await detalle.save(); // Guardar los cambios
             res.status(200).json(detalle);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     },
-
     // Eliminar un registro de detalletallas por su idDetalleTalla
     async delete(req, res) {
         const { id } = req.params;
@@ -97,5 +90,31 @@ module.exports = {
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-    }
+    },
+    //  Obtener todos los registros de detalletallas activos
+    async findActive(req, res) {
+        try {
+            const detalle = await DETALLE_TALLAS.findAll({
+                where : {
+                    estado : 1
+                },
+            });
+            res.status(200).json(detalle);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+    //  Obtener todos los registros de detalletallas inactivos
+    async findInactive(req, res) {
+        try {
+            const detalle = await DETALLE_TALLAS.findAll({
+                where : {
+                    estado : 0
+                },
+            });
+            res.status(200).json(detalle);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
 };

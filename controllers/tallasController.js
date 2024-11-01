@@ -113,4 +113,17 @@ module.exports = {
             res.status(500).json({ error: error.message });
         }
     },
+    // * obtener inactivos
+    async findInactive(req, res) {
+        try {
+            const tallas = await Talla.findAll({
+                where : {
+                    estado : 0
+                },
+            });
+            res.status(200).json(tallas);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
 };
