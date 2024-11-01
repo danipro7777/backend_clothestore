@@ -72,6 +72,7 @@ module.exports = {
             if (idProducto !== undefined) {
                 detalle.idProducto = idProducto;
             }
+            
 
             await detalle.save(); // Guardar los cambios
             res.status(200).json(detalle);
