@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             tallas.hasMany(models.detalletallas, {
                 foreignKey: 'idTalla'
-              });              
+            });              
         }
     }
 

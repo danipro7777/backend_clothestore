@@ -4,6 +4,7 @@ const tallas = require("../models/tallas");
 const Talla = db.tallas;
 
 module.exports = {
+    // * get de todos
     findAll: async (req, res) => {
         try {
             const data = await Talla.findAll();
@@ -14,7 +15,7 @@ module.exports = {
             });
         }
     },
-
+    // *  get de uno
     findById: async (req, res) => {
         const id = req.params.id;
         try {
@@ -32,7 +33,7 @@ module.exports = {
             });
         }
     },
-
+    // * crear uno nuevo
     create(req, res) {
         let datos = req.body;
         console.log('Datos recibidos:', datos); // Verifica qué datos estás recibiendo
@@ -55,9 +56,7 @@ module.exports = {
                 return res.status(500).json({ error: 'Error al insertar la talla' });
             });
     },
-    
-    
-
+    // * actualizar uno
     update: async (req, res) => {
         const id = req.params.id;
         try {
@@ -80,7 +79,7 @@ module.exports = {
             });
         }
     },
-
+    // *  eliminar uno
     delete: async (req, res) => {
         const id = req.params.id;
         try {
@@ -99,6 +98,32 @@ module.exports = {
             res.status(500).send({
                 message: "Could not delete talla with id=" + id
             });
+        }
+    },
+    // * obtener activos
+    async findActive(req, res) {
+        try {
+            const tallas = await Talla.findAll({
+                where : {
+                    estado : 1
+                },
+            });
+            res.status(200).json(tallas);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+    // * obtener inactivos
+    async findInactive(req, res) {
+        try {
+            const tallas = await Talla.findAll({
+                where : {
+                    estado : 0
+                },
+            });
+            res.status(200).json(tallas);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
         }
     },
 };
