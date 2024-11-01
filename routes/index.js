@@ -56,8 +56,8 @@ module.exports = (app) => {
 
     //RUTAS CRUD TEMPORADAS
     router.get('/temporada', temporadasController.find);
-    router.get('/temporada/:id', temporadasController.findById);
     router.get('/temporada/inactivas', temporadasController.findInactive);
+    router.get('/temporada/:id', temporadasController.findById); 
     router.post('/temporada/create', temporadasController.createTemporada);
     router.put('/temporada/update/:id', temporadasController.updateTemporada);
     router.delete('/temporada/delete/:id', temporadasController.deleteTemporada);
