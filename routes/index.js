@@ -56,7 +56,8 @@ module.exports = (app) => {
 
     //RUTAS CRUD TEMPORADAS
     router.get('/temporada', temporadasController.find);
-    router.get('/temporada/:id', temporadasController.findById);
+    router.get('/temporada/inactivas', temporadasController.findInactive);
+    router.get('/temporada/:id', temporadasController.findById); 
     router.post('/temporada/create', temporadasController.createTemporada);
     router.put('/temporada/update/:id', temporadasController.updateTemporada);
     router.delete('/temporada/delete/:id', temporadasController.deleteTemporada);
@@ -132,7 +133,9 @@ module.exports = (app) => {
     router.delete('/devolucion/delete/:id', devolucionesController.deleteDevolucion);
 
     //RUTAS CRUD INVENTARIOS
+    router.get('/inventarios/activos', inventariosController.findAll);
     router.get('/inventarios', inventariosController.findAll);
+    router.get('/inventarios/productos', inventariosController.findAllProducts);
     router.get('/inventarios/:id', inventariosController.findById);
     router.post('/inventarios/create', inventariosController.create);
     router.put('/inventarios/update/:id', inventariosController.update);

@@ -28,7 +28,7 @@ module.exports = {
             .then(temporadas => {
                 if (!temporadas) {
                     return res.status(404).send({
-                        message: 'Temproada no encontrada.'
+                        message: 'Temporada no encontrada.'
                     });
                 }
                 return res.status(200).send(temporadas);
@@ -40,6 +40,22 @@ module.exports = {
             });
     },
 
+    findInactive(req, res) {
+        return Temporadas.findAll({
+            where: {
+                estado: 0
+            }
+        })
+        .then(temporadas => {
+            return res.status(200).send(temporadas);
+        })
+        .catch(error => {
+            return res.status(500).send({
+                message: 'Ocurrió un error al recuperar las temporadas inactivas.'
+            });
+        });
+    },
+    
 
     createTemporada(req, res) {
         let datos = req.body;
