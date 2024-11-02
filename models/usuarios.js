@@ -8,6 +8,14 @@ module.exports = (sequelize, DataTypes) => {
       usuarios.hasOne(models.clientes, {
         foreignKey: 'idUsuario'
       });
+      // Asociación  con el modelo Empleados
+      usuarios.hasOne(models.empleados, {
+        foreignKey: 'idUsuario'
+      });
+      // Asociación con el modelo Roles
+      usuarios.belongsTo(models.roles, {
+        foreignKey: 'idRol'
+    }); 
     }
   };
 
@@ -36,6 +44,10 @@ module.exports = (sequelize, DataTypes) => {
     tokenExpiresAt: { // Nuevo campo para almacenar la fecha de expiración del token
       type: DataTypes.DATE,
       allowNull: true
+    },
+    idRol: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {
     sequelize,

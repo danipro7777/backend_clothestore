@@ -1,19 +1,18 @@
 'use strict';
 const { where } = require("sequelize");
 const db = require("../models");
-const DETALLEOCASIONES = db.detalleOcasiones;
+const DETALLE_TALLAS = db.detalletallas;
+const TALLAS = db.tallas;
 const PRODUCTOS = db.productos;
-const OCASIONES = db.ocasiones;
 
 // Métodos CRUD
 module.exports = {
-
-    // Obtener todos los registros de detalleOcasiones con sus productos y ocasiones asociados
+    // Obtener todos los registros de detalletallas con sus tallas y productos asociados
     async findAll(req, res) {
         try {
-            const detalles = await DETALLEOCASIONES.findAll({
+            const detalles = await DETALLE_TALLAS.findAll({
                 include: [
-                    { model: OCASIONES, attributes: ['idOcasion', 'ocasion'] },
+                    { model: TALLAS, attributes: ['idTalla', 'talla'] },
                     { model: PRODUCTOS, attributes: ['idProducto', 'nombre'] }
                 ],
                 where: {estado: 1}
@@ -23,103 +22,101 @@ module.exports = {
             res.status(500).json({ error: error.message });
         }
     },
-
-    // Obtener un registro de detalleOcasiones por su idDetalleOcasion
+    // Obtener un registro de detalleTalla por su idDetalleTalla
     async findById(req, res) {
         const { id } = req.params;
         try {
-            const detalle = await DETALLEOCASIONES.findByPk(id, {
+            const detalle = await DETALLE_TALLAS.findByPk(id, {
                 include: [
-                    { model: OCASIONES, attributes: ['idOcasion', 'ocasion'] },
+                    { model: TALLAS, attributes: ['idTalla', 'talla'] },
                     { model: PRODUCTOS, attributes: ['idProducto', 'nombre'] }
                 ]
             });
             if (!detalle) {
-                return res.status(404).json({ message: 'Detalle de ocasión no encontrado' });
+                return res.status(404).json({ message: 'Detalle no encontrado' });
             }
             res.status(200).json(detalle);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     },
-
-    // Crear un nuevo registro en detalleOcasiones
+    // Crear un nuevo registro en detalletallas
     async create(req, res) {
-        const { idOcasion, idProducto} = req.body;
+        const { estado, idTalla, idProducto } = req.body;
         try {
-            const newDetalle = await DETALLEOCASIONES.create({
-                idOcasion,
-                idProducto,
-                estado: 1
+            const newDetalle = await DETALLE_TALLAS.create({
+                estado,
+                idTalla,
+                idProducto
             });
             res.status(201).json(newDetalle);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     },
-
-    // Actualizar un registro de detalleOcasiones por su idDetalleOcasion
+    // Actualizar un registro de detalletallas por su idDetalleTalla
     async update(req, res) {
         const { id } = req.params;
-        const { idOcasion, idProducto, estado } = req.body;
+        const { estado, idTalla, idProducto } = req.body;
         try {
-            const detalle = await DETALLEOCASIONES.findByPk(id);
+            const detalle = await DETALLE_TALLAS.findByPk(id);
             if (!detalle) {
-                return res.status(404).json({ message: 'Detalle de ocasión no encontrado' });
+                return res.status(404).json({ message: 'Detalle no encontrado' });
             }
-
             // Actualizar solo los campos que fueron enviados
-            if (idOcasion !== undefined) {
-                detalle.idOcasion = idOcasion;
+            if (estado !== undefined) {
+                detalle.estado = estado;
+            }
+            if (idTalla !== undefined) {
+                detalle.idTalla = idTalla;
             }
             if (idProducto !== undefined) {
                 detalle.idProducto = idProducto;
             }
-            if (estado !== undefined) {
-                detalle.estado = estado;
-            }
-
             await detalle.save(); // Guardar los cambios
             res.status(200).json(detalle);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     },
-
-    // Eliminar un registro de detalleOcasiones por su idDetalleOcasion
+    // Eliminar un registro de detalletallas por su idDetalleTalla
     async delete(req, res) {
         const { id } = req.params;
         try {
-            const detalle = await DETALLEOCASIONES.findByPk(id);
+            const detalle = await DETALLE_TALLAS.findByPk(id);
             if (!detalle) {
-                return res.status(404).json({ message: 'Detalle de ocasión no encontrado' });
+                return res.status(404).json({ message: 'Detalle no encontrado' });
             }
             await detalle.destroy();
-            res.status(200).json({ message: 'Detalle de ocasión eliminado correctamente' });
+            res.status(200).json({ message: 'Detalle eliminado correctamente' });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     },
-    //  Obtener todas los detalles ocasiones activos
+    //  Obtener todos los registros de detalletallas activos
     async findActive(req, res) {
         try {
-            const ocasion = await OCASIONES.findAll({
+            const detalle = await DETALLE_TALLAS.findAll({
                 where : {
                     estado : 1
                 },
             });
-            res.status(200).json(ocasion);
+            res.status(200).json(detalle);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     },
-    // Obtener todas los detalle ocasiones inactivos
+    //  Obtener todos los registros de detalletallas inactivos
     async findInactive(req, res) {
         try {
-            const detalle = await DETALLEOCASIONES.findAll({
+            const detalle = await DETALLE_TALLAS.findAll({
                 where : {
                     estado : 0
                 },
+                include: [
+                    { model: TALLAS, attributes: ['idTalla', 'talla'] },
+                    { model: PRODUCTOS, attributes: ['idProducto', 'nombre'] }
+                ]
             });
             res.status(200).json(detalle);
         } catch (error) {

@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
       productos.hasMany(models.inventarios, {
         foreignKey: 'idProducto'
       });
+
+      // Relación uno a muchos con detalleventas
+      productos.hasMany(models.detalletallas, {
+        foreignKey: 'idProducto'
+      });      
     }
   }
 
@@ -48,6 +53,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     precio: {
       type: DataTypes.DECIMAL(10, 2),
+      allowNull: false
+    },
+    foto: {
+      type: DataTypes.STRING,
       allowNull: false
     },
   

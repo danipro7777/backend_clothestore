@@ -6,7 +6,9 @@ const OCASIONES = db.ocasiones;
 module.exports = {
     findAll: async (req, res) => {
         try {
-            const ocasiones = await OCASIONES.findAll();
+            const ocasiones = await OCASIONES.findAll({
+                where: {estado: 1}
+            });
             res.status(200).json(ocasiones);
         } catch (error) {
             res.status(500).json({ message: "Error al obtener las ocasiones", error });
@@ -72,6 +74,32 @@ module.exports = {
             }
         } catch (error) {
             res.status(500).json({ message: "Error al eliminar la ocasión", error });
+        }
+    },
+    //  Obtener todas las ocasiones activas
+    async findActive(req, res) {
+        try {
+            const ocasion = await OCASIONES.findAll({
+                where : {
+                    estado : 1
+                },
+            });
+            res.status(200).json(ocasion);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+    // Obtener todas las ocasiones inactivas
+    async findInactive(req, res) {
+        try {
+            const detalle = await OCASIONES.findAll({
+                where : {
+                    estado : 0
+                },
+            });
+            res.status(200).json(detalle);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
         }
     },
 };

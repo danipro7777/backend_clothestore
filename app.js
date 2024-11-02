@@ -1,4 +1,6 @@
+require('dotenv').config();
 const express       = require('express');
+const path = require('path');
 const cors          = require('cors');
 const logger        = require('morgan');
 const bodyParser    = require('body-parser');
@@ -27,7 +29,7 @@ app.use(express.urlencoded({limit:"50mb" , extended: false }));
 
 
 require("./routes")(app);
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 /* genera  las tablas en la base de datos */
 /*    const db = require("./models");

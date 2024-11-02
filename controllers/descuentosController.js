@@ -35,6 +35,33 @@ module.exports = {
         }
     },
 
+    async findActive(req, res) {
+        try {
+            const descuentos = await Descuento.findAll({
+                where : {
+                    estado : 1
+                },
+            });
+            res.status(200).json(descuentos);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+
+      // * obtener inactivos
+      async findInactive(req, res) {
+        try {
+            const descuentos = await Descuento.findAll({
+                where : {
+                    estado : 0
+                },
+            });
+            res.status(200).json(descuentos);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+
     // Crear nuevo descuento
     create: async (req, res) => {
         try {
