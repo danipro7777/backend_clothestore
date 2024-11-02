@@ -21,7 +21,7 @@ module.exports = {
                 });
             });
     },
-
+//comentario
     findById(req, res) {
         const id = req.params.id;
         return Temporadas.findByPk(id)
