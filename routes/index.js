@@ -154,8 +154,8 @@ module.exports = (app) => {
 
      //RUTAS CRUD DETALLE OCASIONES
     router.get('/detalleoc', detalleOcasionesController.findAll);
-    router.get('/detalleoc/activos', ocasionesController.findActive);
-    router.get('/detalleoc/inactivos', ocasionesController.findInactive);
+    router.get('/detalleoc/activos', detalleOcasionesController.findActive);
+    router.get('/detalleoc/inactivos', detalleOcasionesController.findInactive);
     router.get('/detalleoc/:id', detalleOcasionesController.findById);
     router.post('/detalleoc/create', detalleOcasionesController.create);
     router.put('/detalleoc/update/:id', detalleOcasionesController.update);
@@ -171,7 +171,7 @@ module.exports = (app) => {
     //RUTAS CRUD DETALLE TALLAS
     router.get('/detalleTallas', detalleTallasController.findAll);
     router.get('/detalleTallas/activos', detalleTallasController.findActive);
-    router.post('/detalleTallas/inactivos', detalleTallasController.findInactive);
+    router.get('/detalleTallas/inactivos', detalleTallasController.findInactive);
     router.get('/detalleTallas/:id', detalleTallasController.findById);
     router.post('/detalleTallas/create', detalleTallasController.create);
     router.put('/detalleTallas/update/:id', detalleTallasController.update);

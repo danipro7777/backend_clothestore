@@ -7,7 +7,11 @@ module.exports = {
     // * get de todos
     findAll: async (req, res) => {
         try {
-            const data = await Talla.findAll();
+            const data = await Talla.findAll({
+                where : {
+                    estado : 1
+                },
+            });
             res.json(data);
         } catch (error) {
             res.status(500).send({

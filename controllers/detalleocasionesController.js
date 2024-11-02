@@ -1,4 +1,5 @@
 'use strict';
+const { where } = require("sequelize");
 const db = require("../models");
 const DETALLEOCASIONES = db.detalleOcasiones;
 const PRODUCTOS = db.productos;
@@ -14,7 +15,8 @@ module.exports = {
                 include: [
                     { model: OCASIONES, attributes: ['idOcasion', 'ocasion'] },
                     { model: PRODUCTOS, attributes: ['idProducto', 'nombre'] }
-                ]
+                ],
+                where: {estado: 1}
             });
             res.status(200).json(detalles);
         } catch (error) {
@@ -114,7 +116,7 @@ module.exports = {
     // Obtener todas los detalle ocasiones inactivos
     async findInactive(req, res) {
         try {
-            const detalle = await DETALLE_TALLAS.findAll({
+            const detalle = await DETALLEOCASIONES.findAll({
                 where : {
                     estado : 0
                 },

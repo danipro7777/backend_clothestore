@@ -9,13 +9,15 @@ module.exports = {
     async findAll(req, res) {
         try {
             const empleados = await EMPLEADOS.findAll({
-                include: [{ model: USUARIO, attributes: ['idUsuario', 'usuario'] }]
+                include: [{ model: USUARIO, attributes: ['idUsuario', 'usuario'] }],
+                where: { estado: 1 }
             });
             res.status(200).json(empleados);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     },
+
     // Obtener un empleado por su idEmpleado
     async findById(req, res) {
         const { id } = req.params;
@@ -31,15 +33,21 @@ module.exports = {
             res.status(500).json({ error: error.message });
         }
     },
+
     // Crear un nuevo empleado
     async create(req, res) {
-        const { nombre, correo, telefono, idUsuario, estado } = req.body;
+        const { nombre, correo, telefono, usuario, estado } = req.body;
         try {
+            const usuarioData = await USUARIO.findOne({ where: { usuario } });
+            if (!usuarioData) {
+                return res.status(404).json({ message: 'Usuario no encontrado' });
+            }
+
             const newEmpleado = await EMPLEADOS.create({
                 nombre,
                 correo,
                 telefono,
-                idUsuario,
+                idUsuario: usuarioData.idUsuario,
                 estado: 1
             });
             res.status(201).json(newEmpleado);
@@ -47,21 +55,28 @@ module.exports = {
             res.status(500).json({ error: error.message });
         }
     },
+
     // Actualizar un empleado por su idEmpleado
     async update(req, res) {
         const { id } = req.params;
-        const { nombre, correo, telefono, idUsuario, estado } = req.body;
+        const { nombre, correo, telefono, usuario, estado } = req.body;
         try {
             const empleado = await EMPLEADOS.findByPk(id);
             if (!empleado) {
                 return res.status(404).json({ message: 'Empleado no encontrado' });
             }
 
-            // Actualizar solo los campos que fueron enviados
+            if (usuario) {
+                const usuarioData = await USUARIO.findOne({ where: { usuario } });
+                if (!usuarioData) {
+                    return res.status(404).json({ message: 'Usuario no encontrado' });
+                }
+                empleado.idUsuario = usuarioData.idUsuario;
+            }
+
             if (nombre !== undefined) empleado.nombre = nombre;
             if (correo !== undefined) empleado.correo = correo;
             if (telefono !== undefined) empleado.telefono = telefono;
-            if (idUsuario !== undefined) empleado.idUsuario = idUsuario;
             if (estado !== undefined) empleado.estado = estado;
 
             await empleado.save();
@@ -70,6 +85,7 @@ module.exports = {
             res.status(500).json({ error: error.message });
         }
     },
+
     // Eliminar un empleado por su idEmpleado
     async delete(req, res) {
         const { id } = req.params;
@@ -84,31 +100,29 @@ module.exports = {
             res.status(500).json({ error: error.message });
         }
     },
-    //  Obtener todos los empleados activos
+
+    // Obtener todos los empleados activos
     async findActive(req, res) {
         try {
-            const empleado = await EMPLEADOS.findAll({
-                where : {
-                    estado : 1
-                },
+            const empleados = await EMPLEADOS.findAll({
+                where: { estado: 1 },
             });
-            res.status(200).json(empleado);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    },
-    //  Obtener todos los empleados inactivos
-    async findInactive(req, res) {
-        try {
-            const empleado = await EMPLEADOS.findAll({
-                where : {
-                    estado : 0
-                },
-            });
-            res.status(200).json(empleado);
+            res.status(200).json(empleados);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     },
 
+    // Obtener todos los empleados inactivos
+    async findInactive(req, res) {
+        try {
+            const empleados = await EMPLEADOS.findAll({
+                where: { estado: 0 },
+                include: [{ model: USUARIO, attributes: ['idUsuario', 'usuario'] }]
+            });
+            res.status(200).json(empleados);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
 };
