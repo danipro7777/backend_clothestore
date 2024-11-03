@@ -24,6 +24,34 @@ module.exports = {
             });
     },
 
+     // * obtener activos
+     async findActive(req, res) {
+        try {
+            const clientes = await Clientes.findAll({
+                where : {
+                    estado : 1
+                },
+            });
+            res.status(200).json(clientes);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+
+         // * obtener inactivos
+         async findInactive(req, res) {
+            try {
+                const clientes = await Clientes.findAll({
+                    where : {
+                        estado : 0
+                    },
+                });
+                res.status(200).json(clientes);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        },
+
     findById(req, res) {
         const id = req.params.id;
         return Clientes.findByPk(id)
@@ -118,5 +146,46 @@ module.exports = {
             console.error('Error al eliminar cliente:', error);
             return res.status(500).json({ error: 'Error al eliminar cliente' });
         }
+    },
+
+    // Método para activar un cliente
+async activarCliente(req, res) {
+    const id = req.params.id;
+
+    try {
+        const cliente = await Clientes.findByPk(id);
+        if (!cliente) {
+            return res.status(404).json({ error: 'Cliente no encontrado' });
+        }
+
+        cliente.estado = 1; // Establecer estado como activo
+        await cliente.save(); // Guardar cambios
+
+        return res.status(200).json({ message: 'Cliente activado correctamente' });
+    } catch (error) {
+        console.error('Error al activar el cliente:', error);
+        return res.status(500).json({ error: 'Error al activar el cliente' });
     }
+},
+
+// Método para desactivar un cliente
+async desactivarCliente(req, res) {
+    const id = req.params.id;
+
+    try {
+        const cliente = await Clientes.findByPk(id);
+        if (!cliente) {
+            return res.status(404).json({ error: 'Cliente no encontrado' });
+        }
+
+        cliente.estado = 0; // Establecer estado como inactivo
+        await cliente.save(); // Guardar cambios
+
+        return res.status(200).json({ message: 'Cliente desactivado correctamente' });
+    } catch (error) {
+        console.error('Error al desactivar el cliente:', error);
+        return res.status(500).json({ error: 'Error al desactivar el cliente' });
+    }
+}
+
 };
