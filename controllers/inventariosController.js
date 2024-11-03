@@ -5,6 +5,32 @@ const PRODUCTOS = db.productos;
 
 // Métodos CRUD
 module.exports = {
+    async find(req, res) {
+        try {
+            const inventario = await INVENTARIOS.findAll({
+                where: {
+                    estado: 1 // Filtrar solo los registros con estado activo (1)
+                }
+            });
+    
+            return res.status(200).send(inventario);
+        } catch (error) {
+            return res.status(500).send({
+                message: 'Ocurrió un error al recuperar los datos.'
+            });
+        }
+    },
+    
+    async findAllProducts(req, res) {
+        try {
+            const productos = await PRODUCTOS.findAll({
+                attributes: ['idProducto', 'nombre']
+            });
+            res.status(200).json(productos);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
 
     // Obtener todos los registros de inventarios con sus productos asociados
     async findAll(req, res) {
@@ -39,20 +65,21 @@ module.exports = {
     },
 
     // Crear un nuevo registro en inventarios
-    async create(req, res) {
-        const { fechaIngreso, cantidad, idProducto } = req.body;
-        try {
-            const newInventario = await INVENTARIOS.create({
-                fechaIngreso,
-                cantidad,
-                estado: 1,
-                idProducto
-            });
-            res.status(201).json(newInventario);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    },
+        async create(req, res) {
+            const { fechaIngreso, cantidad, estado, idProducto } = req.body;
+            try {
+                const newInventario = await INVENTARIOS.create({
+                    fechaIngreso,
+                    cantidad,
+                    estado: estado || 1,
+                    idProducto
+                });
+                res.status(201).json(newInventario);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        },
+
 
     // Actualizar un registro de inventarios por su idInventario
     async update(req, res) {

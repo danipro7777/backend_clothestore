@@ -34,6 +34,7 @@ module.exports = {
                 nombre,
                 genero,
                 color,
+                precio,
                 descripcion,
                 estado: 1,// Valor por defecto para estado
                 foto,
@@ -57,6 +58,8 @@ module.exports = {
                     genero: genero !== undefined ? genero : producto.genero,
                     color: color !== undefined ? color : producto.color,
                     descripcion: descripcion !== undefined ? descripcion : producto.descripcion,
+                    precio: precio !== undefined ? precio : producto.precio,
+                    foto:  foto !== undefined ? foto : producto.foto,
                     estado: estado !== undefined ? estado : producto.estado,
                     foto: foto !== undefined ? foto : producto.foto,
                     precio: precio !== undefined ? precio : producto.precio,
