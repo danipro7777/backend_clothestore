@@ -55,10 +55,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false
     },
-    estado: {
-      type: DataTypes.INTEGER,
+    foto: {
+      type: DataTypes.STRING,
       allowNull: false
     },
+  
   }, {
     sequelize,
     modelName: 'productos',

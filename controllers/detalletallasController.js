@@ -1,4 +1,5 @@
 'use strict';
+const { where } = require("sequelize");
 const db = require("../models");
 const DETALLE_TALLAS = db.detalletallas;
 const TALLAS = db.tallas;
@@ -13,7 +14,8 @@ module.exports = {
                 include: [
                     { model: TALLAS, attributes: ['idTalla', 'talla'] },
                     { model: PRODUCTOS, attributes: ['idProducto', 'nombre'] }
-                ]
+                ],
+                where: {estado: 1}
             });
             res.status(200).json(detalles);
         } catch (error) {
@@ -111,6 +113,10 @@ module.exports = {
                 where : {
                     estado : 0
                 },
+                include: [
+                    { model: TALLAS, attributes: ['idTalla', 'talla'] },
+                    { model: PRODUCTOS, attributes: ['idProducto', 'nombre'] }
+                ]
             });
             res.status(200).json(detalle);
         } catch (error) {

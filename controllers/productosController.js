@@ -4,6 +4,7 @@ const PRODUCTOS = db.productos;
 
 // Métodos CRUD
 module.exports = {
+
     findAll: async (req, res) => {
         try {
             const productos = await PRODUCTOS.findAll();
@@ -27,16 +28,44 @@ module.exports = {
         }
     },
 
+    async findActive(req, res) {
+        try {
+            const productos = await PRODUCTOS.findAll({
+                where : {
+                    estado : 1
+                },
+            });
+            res.status(200).json(productos);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+
+      // * obtener inactivos
+      async findInactive(req, res) {
+        try {
+            const productos = await PRODUCTOS.findAll({
+                where : {
+                    estado : 0
+                },
+            });
+            res.status(200).json(productos);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+
     create: async (req, res) => {
-        const { nombre, genero, color, descripcion, foto, precio } = req.body;
+        const { nombre, genero, color, descripcion, precio } = req.body;
+        const foto = req.file ? req.file.filename : null; // Obtener el nombre del archivo
+
         try {
             const nuevoProducto = await PRODUCTOS.create({
                 nombre,
                 genero,
                 color,
-                precio,
                 descripcion,
-                estado: 1,// Valor por defecto para estado
+                estado: 1, // Valor por defecto para estado
                 foto,
                 precio
             });
@@ -48,21 +77,20 @@ module.exports = {
 
     update: async (req, res) => {
         const { idProducto } = req.params;
-        const { nombre, genero, color, descripcion, estado, foto, precio } = req.body;
+        const { nombre, genero, color, descripcion, estado, precio } = req.body;
+        const foto = req.file ? req.file.filename : undefined; // Obtener el nombre del archivo si existe
+
         try {
             const producto = await PRODUCTOS.findByPk(idProducto);
             if (producto) {
-                // Solo actualiza los campos que están presentes en req.body
                 await producto.update({
                     nombre: nombre !== undefined ? nombre : producto.nombre,
                     genero: genero !== undefined ? genero : producto.genero,
                     color: color !== undefined ? color : producto.color,
                     descripcion: descripcion !== undefined ? descripcion : producto.descripcion,
                     precio: precio !== undefined ? precio : producto.precio,
-                    foto:  foto !== undefined ? foto : producto.foto,
                     estado: estado !== undefined ? estado : producto.estado,
-                    foto: foto !== undefined ? foto : producto.foto,
-                    precio: precio !== undefined ? precio : producto.precio,
+                    foto: foto !== undefined ? foto : producto.foto, // Actualiza solo si hay nuevo archivo
                 });
                 res.status(200).json({ message: "Producto actualizado correctamente", producto });
             } else {
@@ -71,7 +99,7 @@ module.exports = {
         } catch (error) {
             res.status(500).json({ message: "Error al actualizar el producto", error });
         }
-    },    
+    },
 
     delete: async (req, res) => {
         const { idProducto } = req.params;
