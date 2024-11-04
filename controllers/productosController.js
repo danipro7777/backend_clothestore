@@ -57,7 +57,7 @@ module.exports = {
 
     create: async (req, res) => {
         const { nombre, genero, color, descripcion, precio } = req.body;
-        const foto = req.file ? req.file.filename : null; // Obtener el nombre del archivo
+        const foto = req.file ? req.file.filename : null; 
 
         try {
             const nuevoProducto = await PRODUCTOS.create({
