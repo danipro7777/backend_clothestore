@@ -79,7 +79,7 @@ module.exports = (app) => {
     router.put('/clientes/desactivar/:id', clientesController.desactivarCliente);
 
   
-    //RUTAS CRUD LOG DE PREGUNTAS
+    //RUTAS CRUD LOG DE PREGUNTAS 
     router.get('/logpreguntas', logpreguntasController.find);
     router.get('/logpreguntas/:id', logpreguntasController.findById);
     router.post('/logpreguntas/create', logpreguntasController.createLogPreguntas);
