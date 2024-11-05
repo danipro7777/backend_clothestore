@@ -39,7 +39,6 @@ module.exports = (app) => {
     // router.use(authenticateToken); // Middleware para verificar el token
 
     router.post('/logout/:id', usuariosController.logout); // Ruta para cerrar sesión
-   // router.post('/logout/:id', usuariosController.logout); // Ruta para cerrar sesión
     
     // <-------------------- RUTAS --------------------
     // Rutas CRUD para usuarios
@@ -82,7 +81,7 @@ module.exports = (app) => {
     router.put('/clientes/desactivar/:id', clientesController.desactivarCliente);
 
   
-    //RUTAS CRUD LOG DE PREGUNTAS
+    //RUTAS CRUD LOG DE PREGUNTAS 
     router.get('/logpreguntas', logpreguntasController.find);
     router.get('/logpreguntas/:id', logpreguntasController.findById);
     router.post('/logpreguntas/create', logpreguntasController.createLogPreguntas);
