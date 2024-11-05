@@ -30,7 +30,7 @@ module.exports = (app) => {
     router.post('/login', usuariosController.login); // No se le aplica token porque es la ruta de login
 
     // Ruta para crear un nuevo usuario
-    router.post('/usuarios', usuariosController.create); // No se le aplica token porque es la ruta de creación de usuario
+    router.post('/createuser', usuariosController.create); // No se le aplica token porque es la ruta de creación de usuario
 
     // ! <-------------------- USO DE TOKENS APARTIR DE AQUI --------------------
     // ! POR EL MOMENTO SE VA A DESACTIVAR LA AUTENTICACION DE TOKENS PARA PODER PROBAR LAS RUTAS
