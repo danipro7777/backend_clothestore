@@ -1,5 +1,7 @@
 const { Router } = require('express');
 const upload = require('../middlewares/upload');
+const express = require('express');
+const path = require('path');
 const router = Router();
 // const { authenticateToken } = require('../middlewares/authenticateToken');
 
@@ -83,6 +85,8 @@ module.exports = (app) => {
     router.delete('/logpreguntas/delete/:id', logpreguntasController.deleteLogPreguntas);
 
     //RUTAS CRUD PRODUCTOS
+    router.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
     router.get('/productos/activos', productosController.findActive);
     router.get('/productos/inactivos', productosController.findInactive);
     router.get('/productos', productosController.findAll);
@@ -159,6 +163,7 @@ module.exports = (app) => {
     router.get('/ventas', ventasController.findAll);
     router.get('/ventas/:id', ventasController.findById);
     router.post('/ventas/create', ventasController.create);
+    router.post('/ventas/createVenta', ventasController.createVenta);
     router.put('/ventas/update/:id', ventasController.update);
     router.delete('/ventas/delete/:id', ventasController.delete);
 
