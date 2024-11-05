@@ -151,6 +151,7 @@ module.exports = (app) => {
     router.get('/devolucion', devolucionesController.find);
     router.get('/devolucion/:id', devolucionesController.findById);
     router.post('/devolucion/create', devolucionesController.createDevolucion);
+    router.post('/devolucionCascada/create', devolucionesController.createDevolucionCascada);
     router.put('/devolucion/update/:id', devolucionesController.updateDevolucion);
     router.delete('/devolucion/delete/:id', devolucionesController.deleteDevolucion);
 
