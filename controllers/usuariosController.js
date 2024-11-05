@@ -2,6 +2,7 @@
 const Sequelize = require('sequelize');
 const db = require("../models");
 const Usuarios = db.usuarios;
+const ROLES = db.roles;
 const jwt = require('jsonwebtoken');
 
 function rot13(texto) {
@@ -123,7 +124,11 @@ module.exports = {
             const users = await Usuarios.findAll({
                 where: {
                     estado: 1 // Filtrar por estado 1
-                }
+                },
+                include: [{
+                    model: ROLES,
+                    attributes: ['rol']  
+                }]
             });
 
             // Desencriptar contraseñas

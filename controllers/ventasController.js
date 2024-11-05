@@ -9,6 +9,7 @@ const DETALLEVENTAS = db.detalleventas;
 const INVENTARIO = db.inventarios;
 const PRODUCTO = db.productos;
 
+
 // Métodos CRUD
 module.exports = {
 
@@ -73,7 +74,7 @@ module.exports = {
             }));
 
             // Guardar los detalles en la base de datos (esto asume que tienes un modelo de DetalleVenta)
-            await DetalleVenta.bulkCreate(productosDetalles);
+            await DETALLEVENTAS.bulkCreate(productosDetalles);
 
             res.status(201).json({ venta: newVenta, detalles: productosDetalles });
         } catch (error) {
@@ -81,75 +82,106 @@ module.exports = {
         }
     },
 
-     // Método para crear una venta con sus detalles
-     async createVenta(req, res) {
-        const { fechaVenta, idCliente, idPago, idDescuento, idCupon, productos } = req.body;
-    
-        try {
-          let total = 0;
-    
-          const detalles = await Promise.all(
+   // Método para crear una venta con sus detalles
+   async createVenta(req, res) {
+    const { fechaVenta, idCliente, idPago, idDescuento, idCupon, productos } = req.body;
+
+    try {
+        let total = 0;
+
+        // Obtener el descuento del cupón, si existe
+        let descuentoCupon = 0;
+        if (idCupon) {
+            const cupon = await CUPONES.findByPk(idCupon);
+            if (cupon && cupon.estado === 1) {
+                descuentoCupon = parseFloat(cupon.descuento); // Asumiendo que es un valor en porcentaje (e.g., 10 para 10%)
+            }
+        }
+
+        // Obtener el descuento general, si existe
+        let descuentoGeneral = 0;
+        if (idDescuento) {
+            const descuento = await DESCUENTOS.findByPk(idDescuento);
+            if (descuento && descuento.estado === 1) {
+                descuentoGeneral = parseFloat(descuento.descuento); // Asumiendo que es un valor en porcentaje (e.g., 15 para 15%)
+            }
+        }
+
+        const detalles = await Promise.all(
             productos.map(async (producto) => {
-              const inventario = await INVENTARIO.findByPk(producto.idInventario, {
-                include: [
-                  {
-                    model: PRODUCTO,
-                    attributes: ["precio"], 
-                  },
-                ],
-              });
-    
-              if (!inventario) {
-                throw new Error(`Inventario no encontrado para el producto ${producto.idInventario}`);
-              }
-    
-              if (inventario.cantidad < producto.cantidad) {
-                throw new Error(`No hay suficiente inventario para el producto${producto.idInventario}`);
-              }
-    
-              const precio = inventario.producto.precio; 
-              const subtotal = precio * producto.cantidad;
-    
-              total += subtotal;
-    
-              inventario.cantidad -= producto.cantidad;
-              await inventario.save();
-    
-              return {
-                idVenta: null, 
-                idInventario: producto.idInventario,
-                cantidad: producto.cantidad,
-                subtotal,
-                estado: 1,
-              };
+                const inventario = await INVENTARIO.findByPk(producto.idInventario, {
+                    include: [
+                        {
+                            model: PRODUCTO,
+                            attributes: ["precio"],
+                        },
+                    ],
+                });
+
+                if (!inventario) {
+                    throw new Error(`Inventario no encontrado para el producto ${producto.idInventario}`);
+                }
+
+                if (inventario.cantidad < producto.cantidad) {
+                    throw new Error(`No hay suficiente inventario para el producto ${producto.idInventario}`);
+                }
+
+                const precio = parseFloat(inventario.producto.precio);
+                let subtotal = precio * producto.cantidad;
+
+                // Aplicar el descuento del cupón si existe
+                if (descuentoCupon > 0) {
+                    subtotal -= (subtotal * descuentoCupon) / 100;
+                }
+
+                // Aplicar el descuento general si existe
+                if (descuentoGeneral > 0) {
+                    subtotal -= (subtotal * descuentoGeneral) / 100;
+                }
+
+                total += subtotal;
+
+                // Actualizar inventario
+                inventario.cantidad -= producto.cantidad;
+                await inventario.save();
+
+                return {
+                    idVenta: null,
+                    idInventario: producto.idInventario,
+                    cantidad: producto.cantidad,
+                    subtotal,
+                    estado: 1,
+                };
             })
-          );
-    
-          const nuevaVenta = await VENTAS.create({
+        );
+
+        // Crear la venta
+        const nuevaVenta = await VENTAS.create({
             fechaVenta,
-            total, 
+            total,
             idCliente,
             idPago,
             idDescuento,
             idCupon,
-          });
-    
-          detalles.forEach((detalle) => {
+        });
+
+        // Asignar el idVenta a cada detalle y guardarlo en la base de datos
+        detalles.forEach((detalle) => {
             detalle.idVenta = nuevaVenta.idVenta;
-          });
-          await DETALLEVENTAS.bulkCreate(detalles);
-    
-          res.status(201).json({
+        });
+        await DETALLEVENTAS.bulkCreate(detalles);
+
+        res.status(201).json({
             message: "Venta creada exitosamente",
             venta: nuevaVenta,
             detalles,
-          });
-        } catch (error) {
-          console.error("Error al crear la venta y sus detalles:", error);
-          res.status(500).json({ error: error.message });
-        }
-      },
-
+        });
+    } catch (error) {
+        console.error("Error al crear la venta y sus detalles:", error);
+        res.status(500).json({ error: error.message });
+    }
+},
+  
     // Actualizar un registro de ventas por su idVenta
     async update(req, res) {
         const { id } = req.params;

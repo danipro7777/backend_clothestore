@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'idProducto'
       });      
     }
-  }
+  } 
 
   productos.init({
     idProducto: {
