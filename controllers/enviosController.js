@@ -11,13 +11,16 @@ const PRODUCTOS = db.productos;
 module.exports = {
 
     // Obtener todos los registros de envíos con sus ventas asociadas
-    async findAll(req, res) {
+    async findAllActive(req, res) {
         try {
             const envios = await ENVIOS.findAll({
+                /*where : {
+                    estado : 1
+                },*/
                 include: [
                     {
                       model: VENTAS,
-                      attributes: ['fechaVenta', 'total'], // Atributos de la venta
+                      attributes: ['idVenta', 'fechaVenta', 'total'], // Atributos de la venta
                       include: [
                         {
                           model: CLIENTES, // Relación con CLIENTES para obtener el nombre del cliente
