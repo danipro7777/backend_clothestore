@@ -45,20 +45,35 @@ module.exports = {
 
     createLogPreguntas(req, res) {
         let datos = req.body;
-        const datos_ingreso = { 
-            pregunta: datos.pregunta,
-            respuesta: datos.respuesta,
-            frecuencia: datos.frecuencia,
-            estado: 1 
-        }
-            Logpreguntas.create(datos_ingreso)
-        .then(logpreguntas => {
-            res.status(201).send(logpreguntas);
-        })
-        .catch(error => {
-            console.log(error);
-            return res.status(500).json({ error: 'Error al insertar el log de preguntas' });
-        });
+        
+        // Buscar si la pregunta ya existe en la base de datos
+        Logpreguntas.findOne({ where: { pregunta: datos.pregunta } })
+            .then(existingPregunta => {
+                if (existingPregunta) {
+                    // Si la pregunta ya existe, incrementar la frecuencia
+                    return existingPregunta.increment('frecuencia', { by: 1 })
+                        .then(updatedPregunta => {
+                            res.status(200).send(updatedPregunta);
+                        });
+                } else {
+                    // Si la pregunta no existe, crear una nueva con frecuencia inicial de 1
+                    const datos_ingreso = {
+                        pregunta: datos.pregunta,
+                        respuesta: datos.respuesta | null,
+                        frecuencia: 1,
+                        estado: 1
+                    };
+                    
+                    return Logpreguntas.create(datos_ingreso)
+                        .then(newPregunta => {
+                            res.status(201).send(newPregunta);
+                        });
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                return res.status(500).json({ error: 'Error al insertar o actualizar el log de preguntas' });
+            });
     },
 
     updateLogPreguntas(req, res) {

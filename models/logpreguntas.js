@@ -19,8 +19,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     respuesta: {
-        type: DataTypes.STRING(250),
-        allowNull: false
+        type: DataTypes.TEXT,
+        allowNull: true
       },
     frecuencia: {
         type: DataTypes.INTEGER,
