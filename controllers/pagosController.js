@@ -32,7 +32,30 @@ module.exports = {
     // Create
     create: async (req, res) => {
         try {
-            const data = await PAGOS.create(req.body);
+            const {
+                transferencia = 0.00,
+                banco = 'Ninguno',
+                correlativo = '-',
+                tarjetaCredito = 0.00,
+                numeroCredito = '-',
+                tarjetaDebito = 0.00,
+                numeroDebito = '-',
+                efectivo = 0.00,
+                paypal = 0.00
+            } = req.body;
+
+            const data = await PAGOS.create({
+                transferencia,
+                banco,
+                correlativo,
+                tarjetaCredito,
+                numeroCredito,
+                tarjetaDebito,
+                numeroDebito,
+                efectivo,
+                paypal
+            });
+
             res.json(data);
         } catch (error) {
             res.status(500).send({
