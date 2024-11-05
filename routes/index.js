@@ -1,6 +1,7 @@
 const { Router } = require('express');
+const upload = require('../middlewares/upload');
 const router = Router();
-const { authenticateToken } = require('../middlewares/authenticateToken');
+// const { authenticateToken } = require('../middlewares/authenticateToken');
 
 // Importa los controladores
 const usuariosController = require('../controllers/usuariosController');
@@ -36,7 +37,7 @@ module.exports = (app) => {
     // ! POR EL MOMENTO SE VA A DESACTIVAR LA AUTENTICACION DE TOKENS PARA PODER PROBAR LAS RUTAS
     // router.use(authenticateToken); // Middleware para verificar el token
 
-    router.post('/logout/:id', usuariosController.logout); // Ruta para cerrar sesión
+   // router.post('/logout/:id', usuariosController.logout); // Ruta para cerrar sesión
     
     // <-------------------- RUTAS --------------------
     // Rutas CRUD para usuarios
@@ -63,12 +64,17 @@ module.exports = (app) => {
     router.delete('/temporada/delete/:id', temporadasController.deleteTemporada);
 
     //RUTAS CRUD CLIENTES
+    router.get('/clientes/activos', clientesController.findActive);
+   router.get('/clientes/inactivos', clientesController.findInactive);
     router.get('/clientes', clientesController.find);
     router.get('/clientes/:id', clientesController.findById);
     router.post('/clientes/create', clientesController.createCliente);
     router.put('/clientes/update/:id', clientesController.updateCliente);
     router.delete('/clientes/delete/:id', clientesController.deleteCliente);
+    router.put('/clientes/activar/:id', clientesController.activarCliente);
+    router.put('/clientes/desactivar/:id', clientesController.desactivarCliente);
 
+  
     //RUTAS CRUD LOG DE PREGUNTAS
     router.get('/logpreguntas', logpreguntasController.find);
     router.get('/logpreguntas/:id', logpreguntasController.findById);
@@ -77,10 +83,12 @@ module.exports = (app) => {
     router.delete('/logpreguntas/delete/:id', logpreguntasController.deleteLogPreguntas);
 
     //RUTAS CRUD PRODUCTOS
+    router.get('/productos/activos', productosController.findActive);
+    router.get('/productos/inactivos', productosController.findInactive);
     router.get('/productos', productosController.findAll);
     router.get('/productos/:idProducto', productosController.findById);
-    router.post('/productos/create', productosController.create);
-    router.put('/productos/update/:idProducto', productosController.update);
+    router.post('/productos/create', upload.single('foto'), productosController.create);
+    router.put('/productos/update/:idProducto', upload.single('foto'), productosController.update);
     router.delete('/productos/delete/:idProducto', productosController.delete);
 
     //RUTAS CRUD OCASIONES
@@ -109,6 +117,8 @@ module.exports = (app) => {
     router.delete('/cupones/delete/:id', cuponesController.delete);
 
     //RUTAS CRUD descuento
+    router.get('/descuentos/activos', descuentoController.findActive);
+    router.get('/descuentos/inactivos', descuentoController.findInactive);
     router.get('/descuentos', descuentoController.findAll);
     router.get('/descuentos/:id', descuentoController.findById);
     router.post('/descuentos/create', descuentoController.create);
@@ -163,6 +173,7 @@ module.exports = (app) => {
 
     //RUTAS CRUD ENVIOS
     router.get('/envios', enviosController.findAll);
+    router.get('/envios/:idEnvio/productos', enviosController.findProductosByEnvio);
     router.get('/envios/:id', enviosController.findById);
     router.post('/envios/create', enviosController.create);
     router.put('/envios/update/:id', enviosController.update);
