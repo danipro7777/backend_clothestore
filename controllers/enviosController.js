@@ -14,13 +14,13 @@ module.exports = {
     async findAllActive(req, res) {
         try {
             const envios = await ENVIOS.findAll({
-                where : {
+                /*where : {
                     estado : 1
-                },
+                },*/
                 include: [
                     {
                       model: VENTAS,
-                      attributes: ['fechaVenta', 'total'], // Atributos de la venta
+                      attributes: ['idVenta', 'fechaVenta', 'total'], // Atributos de la venta
                       include: [
                         {
                           model: CLIENTES, // Relación con CLIENTES para obtener el nombre del cliente
