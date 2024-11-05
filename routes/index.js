@@ -91,8 +91,10 @@ module.exports = (app) => {
     router.get('/productos/inactivos', productosController.findInactive);
     router.get('/productos', productosController.findAll);
     router.get('/productos/:idProducto', productosController.findById);
+    router.post('/productos/inventario', upload.single('foto'), productosController.createProductWithInventory);
     router.post('/productos/create', upload.single('foto'), productosController.create);
     router.put('/productos/update/:idProducto', upload.single('foto'), productosController.update);
+    router.put('/productos/:idProducto/inventario', upload.single('foto'), productosController.updateProductAndInventory);
     router.delete('/productos/delete/:idProducto', productosController.delete);
 
     //RUTAS CRUD OCASIONES
