@@ -30,13 +30,13 @@ module.exports = (app) => {
     router.post('/login', usuariosController.login); // No se le aplica token porque es la ruta de login
 
     // Ruta para crear un nuevo usuario
-    router.post('/usuarios', usuariosController.create); // No se le aplica token porque es la ruta de creación de usuario
+   router.post('/usuarios', usuariosController.create); // No se le aplica token porque es la ruta de creación de usuario
 
     // ! <-------------------- USO DE TOKENS APARTIR DE AQUI --------------------
     // ! POR EL MOMENTO SE VA A DESACTIVAR LA AUTENTICACION DE TOKENS PARA PODER PROBAR LAS RUTAS
     // router.use(authenticateToken); // Middleware para verificar el token
 
-   // router.post('/logout/:id', usuariosController.logout); // Ruta para cerrar sesión
+    router.post('/logout/:id', usuariosController.logout); // Ruta para cerrar sesión
     
     // <-------------------- RUTAS --------------------
     // Rutas CRUD para usuarios
@@ -53,9 +53,9 @@ module.exports = (app) => {
     // Rutas CRUD para pagos
     router.get('/pagos', pagosController.findAll);
     router.get('/pagos/:id', pagosController.findById);
-    router.post('/pagos', pagosController.create);
-    router.put('/pagos/:id', pagosController.update);
-    router.delete('/pagos/:id', pagosController.delete);
+    router.post('/pagos/create', pagosController.create);
+    router.put('/pagos/update/:id', pagosController.update);
+    router.delete('/pagos/delete/:id', pagosController.delete);
 
     //RUTAS CRUD TEMPORADAS
     router.get('/temporada', temporadasController.find);

@@ -88,7 +88,6 @@ module.exports = {
                 nombre,
                 genero,
                 color,
-                precio,
                 descripcion,
                 estado: 1, // Valor por defecto para estado
                 foto,
