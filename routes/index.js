@@ -125,6 +125,7 @@ module.exports = (app) => {
 
     //RUTAS CRUD cupones
     router.get('/cupones', cuponesController.findAll);
+    router.get('/cupones/:codigo', cuponesController.findByCodigo);
     router.get('/cupones/:id', cuponesController.findById);
     router.post('/cupones/create', cuponesController.create);
     router.put('/cupones/update/:id', cuponesController.update);

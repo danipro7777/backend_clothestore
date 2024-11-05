@@ -9,16 +9,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'idProducto'
       });
 
-      // Relación uno a muchos con inventarios
+      // Relación uno a uno con inventarios
       productos.hasOne(models.inventarios, {
-        foreignKey: 'idProducto',
-        as: 'inventarios' // Añadir alias a la relación
+        foreignKey: 'idProducto' // Sin alias
       });
-
-      // Relación uno a muchos con detalleventas
-      productos.hasMany(models.detalletallas, {
-        foreignKey: 'idProducto'
-      });      
 
       // Relación uno a muchos con detalleventas
       productos.hasMany(models.detalletallas, {
@@ -61,11 +55,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false
     },
-    foto: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-  
   }, {
     sequelize,
     modelName: 'productos',

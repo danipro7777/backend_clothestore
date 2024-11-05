@@ -65,21 +65,20 @@ module.exports = {
     },
 
     // Crear un nuevo registro en inventarios
-        async create(req, res) {
-            const { fechaIngreso, cantidad, estado, idProducto } = req.body;
-            try {
-                const newInventario = await INVENTARIOS.create({
-                    fechaIngreso,
-                    cantidad,
-                    estado: estado || 1,
-                    idProducto
-                });
-                res.status(201).json(newInventario);
-            } catch (error) {
-                res.status(500).json({ error: error.message });
-            }
-        },
-
+    async create(req, res) {
+        const { fechaIngreso, cantidad, estado, idProducto } = req.body;
+        try {
+            const newInventario = await INVENTARIOS.create({
+                fechaIngreso,
+                cantidad,
+                estado: estado || 1,
+                idProducto
+            });
+            res.status(201).json(newInventario);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
 
     // Actualizar un registro de inventarios por su idInventario
     async update(req, res) {

@@ -16,6 +16,26 @@ module.exports = {
         }
     },
 
+    // Obtener un cupón por código
+    findByCodigo: async (req, res) => {
+    const codigo = req.params.codigo; // Obtener el código del cupón de los parámetros de la solicitud
+    try {
+        const data = await Cupon.findOne({ where: { codigo: codigo } }); // Buscar el cupón en la base de datos
+        if (data) {
+            res.json(data); // Si se encuentra el cupón, devolverlo en formato JSON
+        } else {
+            res.status(404).send({
+                message: `Cupón no encontrado con código=${codigo}` // Mensaje si el cupón no existe
+            });
+        }
+        } catch (error) {
+            res.status(500).send({
+                message: "Error al buscar el cupón con código=" + codigo // Manejo de errores
+            });
+        }
+    },
+
+
     // Obtener un cupón por ID
     findById: async (req, res) => {
         const id = req.params.id;

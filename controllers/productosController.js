@@ -1,19 +1,16 @@
 'use strict';
 const db = require("../models");
-const { sequelize } = require('../models');
 const PRODUCTOS = db.productos;
 const INVENTARIOS = db.inventarios;
 
 // Métodos CRUD
 module.exports = {
-
     findAll: async (req, res) => {
         try {
             const productos = await PRODUCTOS.findAll({
                 include: [
                     {
                       model: INVENTARIOS,
-                      as: 'inventarios',  // Usar el alias aquí
                       attributes: ['idInventario','cantidad']
                     }
                 ]
@@ -41,13 +38,12 @@ module.exports = {
     async findActive(req, res) {
         try {
             const productos = await PRODUCTOS.findAll({
-                where : {
-                    estado : 1
+                where: {
+                    estado: 1
                 },
                 include: [
                     {
                       model: INVENTARIOS,
-                      as: 'inventarios',  // Usar el alias aquí
                       attributes: ['idInventario','cantidad']
                     }
                 ]
@@ -58,17 +54,15 @@ module.exports = {
         }
     },
 
-      // * obtener inactivos
-      async findInactive(req, res) {
+    async findInactive(req, res) {
         try {
             const productos = await PRODUCTOS.findAll({
-                where : {
-                    estado : 0
+                where: {
+                    estado: 0
                 },
                 include: [
                     {
                       model: INVENTARIOS,
-                      as: 'inventarios',  // Usar el alias aquí
                       attributes: ['idInventario','cantidad']
                     }
                 ]
@@ -132,7 +126,6 @@ module.exports = {
             res.status(500).json({ message: "Error al crear el producto y el inventario", error });
         }
     },
-    
 
     update: async (req, res) => {
         const { idProducto } = req.params;
@@ -204,7 +197,6 @@ module.exports = {
             res.status(500).json({ message: "Error al actualizar el producto e inventario", error });
         }
     },
-    
 
     delete: async (req, res) => {
         const { idProducto } = req.params;

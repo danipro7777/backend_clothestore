@@ -6,8 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // Relación muchos a uno con productos
       inventarios.belongsTo(models.productos, {
-        foreignKey: 'idProducto',
-        as: 'producto' // Añadir alias a la relación
+        foreignKey: 'idProducto' // Sin alias
       });      
     }
   }
