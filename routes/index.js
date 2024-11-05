@@ -25,12 +25,6 @@ const detalleTallasController = require('../controllers/detalletallasController'
 const empleadosController = require('../controllers/empleadosController');
 const rolesController =  require('../controllers/rolesController');
 
-const enviosController = require('../controllers/enviosController');
-const detalleTallasController = require('../controllers/detalletallasController');
-const empleadosController = require('../controllers/empleadosController');
-const rolesController =  require('../controllers/rolesController');
-
-
 module.exports = (app) => {
     // Ruta para el login
     router.post('/login', usuariosController.login); // No se le aplica token porque es la ruta de login
@@ -190,7 +184,7 @@ module.exports = (app) => {
     router.delete('/detalleoc/delete/:id', detalleOcasionesController.delete);
 
     //RUTAS CRUD ENVIOS
-    router.get('/envios', enviosController.findAll);
+    router.get('/envios', enviosController.findAllActive);
     router.get('/envios/:idEnvio/productos', enviosController.findProductosByEnvio);
     router.get('/envios/:id', enviosController.findById);
     router.post('/envios/create', enviosController.create);
