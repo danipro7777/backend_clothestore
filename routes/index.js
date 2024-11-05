@@ -25,7 +25,6 @@ const detalleTallasController = require('../controllers/detalletallasController'
 const empleadosController = require('../controllers/empleadosController');
 const rolesController =  require('../controllers/rolesController');
 
-
 module.exports = (app) => {
     // Ruta para el login
     router.post('/login', usuariosController.login); // No se le aplica token porque es la ruta de login
@@ -38,13 +37,17 @@ module.exports = (app) => {
     // router.use(authenticateToken); // Middleware para verificar el token
 
     router.post('/logout/:id', usuariosController.logout); // Ruta para cerrar sesión
+   // router.post('/logout/:id', usuariosController.logout); // Ruta para cerrar sesión
     
     // <-------------------- RUTAS --------------------
     // Rutas CRUD para usuarios
     router.get('/usuarios/activos', usuariosController.find); // Obtiene todos los usuarios activos
     router.get('/usuarios/all', usuariosController.find_all_users); // Obtiene todos los usuarios inactivos
+    router.get('/usuarios/activos', usuariosController.find); // Obtiene todos los usuarios activos
+    router.get('/usuarios/all', usuariosController.find_all_users); // Obtiene todos los usuarios inactivos
     router.get('/usuarios/:id', usuariosController.findById); // Obtiene un usuario por ID
     router.put('/usuarios/:id', usuariosController.update); // Actualiza un usuario por ID
+    router.put('/usuarios/updatePassword/:id', usuariosController.update_password); // Actualiza la contraseña de un usuario por ID
     router.put('/usuarios/updatePassword/:id', usuariosController.update_password); // Actualiza la contraseña de un usuario por ID
     router.delete('/usuarios/:id', usuariosController.delete); // Elimina un usuario por ID
 
@@ -57,6 +60,8 @@ module.exports = (app) => {
 
     //RUTAS CRUD TEMPORADAS
     router.get('/temporada', temporadasController.find);
+    router.get('/temporada/inactivas', temporadasController.findInactive);
+    router.get('/temporada/:id', temporadasController.findById); 
     router.get('/temporada/inactivas', temporadasController.findInactive);
     router.get('/temporada/:id', temporadasController.findById); 
     router.post('/temporada/create', temporadasController.createTemporada);
@@ -87,12 +92,16 @@ module.exports = (app) => {
     router.get('/productos/inactivos', productosController.findInactive);
     router.get('/productos', productosController.findAll);
     router.get('/productos/:idProducto', productosController.findById);
+    router.post('/productos/inventario', upload.single('foto'), productosController.createProductWithInventory);
     router.post('/productos/create', upload.single('foto'), productosController.create);
     router.put('/productos/update/:idProducto', upload.single('foto'), productosController.update);
+    router.put('/productos/:idProducto/inventario', upload.single('foto'), productosController.updateProductAndInventory);
     router.delete('/productos/delete/:idProducto', productosController.delete);
 
     //RUTAS CRUD OCASIONES
     router.get('/ocasiones', ocasionesController.findAll);
+    router.get('/ocasiones/activos', ocasionesController.findActive);
+    router.get('/ocasiones/inactivos', ocasionesController.findInactive);
     router.get('/ocasiones/activos', ocasionesController.findActive);
     router.get('/ocasiones/inactivos', ocasionesController.findInactive);
     router.get('/ocasiones/:idOcasion', ocasionesController.findById);
@@ -102,6 +111,8 @@ module.exports = (app) => {
 
     //RUTAS CRUD TALLA
     router.get('/talla', tallasController.findAll);
+    router.get('/talla/activos', tallasController.findActive);
+    router.get('/talla/inactivos', tallasController.findInactive);
     router.get('/talla/activos', tallasController.findActive);
     router.get('/talla/inactivos', tallasController.findInactive);
     router.get('/talla/:id', tallasController.findById);
@@ -148,7 +159,9 @@ module.exports = (app) => {
 
     //RUTAS CRUD INVENTARIOS
     router.get('/inventarios/activos', inventariosController.findAll);
+    router.get('/inventarios/activos', inventariosController.findAll);
     router.get('/inventarios', inventariosController.findAll);
+    router.get('/inventarios/productos', inventariosController.findAllProducts);
     router.get('/inventarios/productos', inventariosController.findAllProducts);
     router.get('/inventarios/:id', inventariosController.findById);
     router.post('/inventarios/create', inventariosController.create);
@@ -166,13 +179,16 @@ module.exports = (app) => {
     router.get('/detalleoc', detalleOcasionesController.findAll);
     router.get('/detalleoc/activos', detalleOcasionesController.findActive);
     router.get('/detalleoc/inactivos', detalleOcasionesController.findInactive);
+    router.get('/detalleoc/activos', detalleOcasionesController.findActive);
+    router.get('/detalleoc/inactivos', detalleOcasionesController.findInactive);
     router.get('/detalleoc/:id', detalleOcasionesController.findById);
     router.post('/detalleoc/create', detalleOcasionesController.create);
     router.put('/detalleoc/update/:id', detalleOcasionesController.update);
     router.delete('/detalleoc/delete/:id', detalleOcasionesController.delete);
 
     //RUTAS CRUD ENVIOS
-    router.get('/envios', enviosController.findAll);
+    router.get('/envios', enviosController.findAllActive);
+    router.get('/envios/:idEnvio/productos', enviosController.findProductosByEnvio);
     router.get('/envios/:id', enviosController.findById);
     router.post('/envios/create', enviosController.create);
     router.put('/envios/update/:id', enviosController.update);

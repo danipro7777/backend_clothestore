@@ -10,9 +10,15 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       // Relación uno a muchos con inventarios
-      productos.hasMany(models.inventarios, {
-        foreignKey: 'idProducto'
+      productos.hasOne(models.inventarios, {
+        foreignKey: 'idProducto',
+        as: 'inventarios' // Añadir alias a la relación
       });
+
+      // Relación uno a muchos con detalleventas
+      productos.hasMany(models.detalletallas, {
+        foreignKey: 'idProducto'
+      });      
 
       // Relación uno a muchos con detalleventas
       productos.hasMany(models.detalletallas, {
