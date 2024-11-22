@@ -82,12 +82,14 @@ module.exports = {
         }
     },
 
-   // Método para crear una venta con sus detalles
-   async createVenta(req, res) {
+// Método para crear una venta con sus detalles
+async createVenta(req, res) {
     const { fechaVenta, idCliente, idPago, idDescuento, idCupon, productos } = req.body;
 
     try {
         let total = 0;
+        let descuentoCuponCantidad = 0; // Cantidad descontada por el cupón
+        let descuentoGeneralCantidad = 0; // Cantidad descontada por el descuento general
 
         // Obtener el descuento del cupón, si existe
         let descuentoCupon = 0;
@@ -131,12 +133,16 @@ module.exports = {
 
                 // Aplicar el descuento del cupón si existe
                 if (descuentoCupon > 0) {
-                    subtotal -= (subtotal * descuentoCupon) / 100;
+                    const descuento = (subtotal * descuentoCupon) / 100;
+                    descuentoCuponCantidad += descuento;
+                    subtotal -= descuento;
                 }
 
                 // Aplicar el descuento general si existe
                 if (descuentoGeneral > 0) {
-                    subtotal -= (subtotal * descuentoGeneral) / 100;
+                    const descuento = (subtotal * descuentoGeneral) / 100;
+                    descuentoGeneralCantidad += descuento;
+                    subtotal -= descuento;
                 }
 
                 total += subtotal;
@@ -154,6 +160,30 @@ module.exports = {
                 };
             })
         );
+
+        // Sumar 40 al total
+        total += 40;
+
+        // Obtener datos del pago asociado al idPago
+        const pago = await PAGOS.findByPk(idPago);
+        if (!pago) {
+            throw new Error(`Pago no encontrado para el id ${idPago}`);
+        }
+
+        // Sumar las cantidades de los campos DECIMAL
+        const sumaPagos =
+            parseFloat(pago.transferencia || 0) +
+            parseFloat(pago.tarjetaCredito || 0) +
+            parseFloat(pago.tarjetaDebito || 0) +
+            parseFloat(pago.efectivo || 0) +
+            parseFloat(pago.paypal || 0);
+
+        // Verificar que la suma de los pagos sea igual al total calculado
+        if (sumaPagos !== total) {
+            throw new Error(
+                `La suma de las cantidades de pago (${sumaPagos}) no coincide con el total de la venta (${total})`
+            );
+        }
 
         // Crear la venta
         const nuevaVenta = await VENTAS.create({
@@ -175,13 +205,17 @@ module.exports = {
             message: "Venta creada exitosamente",
             venta: nuevaVenta,
             detalles,
+            descuentos: {
+                descuentoCuponCantidad,
+                descuentoGeneralCantidad,
+            },
         });
     } catch (error) {
         console.error("Error al crear la venta y sus detalles:", error);
         res.status(500).json({ error: error.message });
     }
 },
-  
+
     // Actualizar un registro de ventas por su idVenta
     async update(req, res) {
         const { id } = req.params;
